@@ -5,15 +5,16 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   version="1.1"
-   id="svg2"
-   viewBox="0 0 256 256"
-   height="256"
-   width="256">
-  <defs
-     id="defs4" />
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="90"
+   height="90"
+   id="svg26"
+   sodipodi:docname="TenebraSymbolThicc2.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
   <metadata
-     id="metadata7">
+     id="metadata32">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -24,24 +25,30 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g
-     transform="translate(0,-796.36216)"
-     id="layer1">
-    <path
-       id="path4138"
-       d="m 0,796.36216 0,256.00004 48,0 0,-256.00004 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       id="path4142"
-       d="m 96,796.36216 128,0 -128,96 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       id="path4144"
-       d="m 96,956.36216 128,96.00004 -128,0 z"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       id="path4248"
-       d="m 128,924.36216 128,-96 0,192.00004 z"
-       style="fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1" />
-  </g>
+  <defs
+     id="defs30" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     id="namedview28"
+     showgrid="false"
+     inkscape:zoom="4"
+     inkscape:cx="21.633866"
+     inkscape:cy="41.712862"
+     inkscape:window-x="1016"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg26" />
+  <path
+     style="stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;fill:#ffffff;fill-opacity:1"
+     d="M 0 0 L 0 90 L 36.832031 90 L 36.832031 55.001953 L 7.8085938 36.716797 L 16.064453 23.613281 L 36.832031 36.697266 L 36.832031 19.146484 L 7.375 19.146484 L 7.375 6.2636719 L 82.625 6.2636719 L 82.625 19.146484 L 52.28125 19.146484 L 52.28125 36.585938 L 73.222656 23.392578 L 81.472656 36.488281 L 52.28125 54.880859 L 52.28125 90 L 90 90 L 90 0 L 0 0 z "
+     id="rect4576-2" />
 </svg>

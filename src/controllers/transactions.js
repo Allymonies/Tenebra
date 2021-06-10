@@ -1,27 +1,27 @@
 /**
  * Created by Drew Lemmy, 2016-2021
  *
- * This file is part of Krist.
+ * This file is part of Tenebra.
  *
- * Krist is free software: you can redistribute it and/or modify
+ * Tenebra is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Krist is distributed in the hope that it will be useful,
+ * Tenebra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Krist. If not, see <http://www.gnu.org/licenses/>.
+ * along with Tenebra. If not, see <http://www.gnu.org/licenses/>.
  *
- * For more project information, see <https://github.com/tmpim/krist>.
+ * For more project information, see <https://github.com/tmpim/tenebra>.
  */
 
 const transactions = require("./../transactions.js");
 const addresses    = require("./../addresses.js");
-const krist        = require("./../krist.js");
+const tenebra        = require("./../tenebra.js");
 const names        = require("./../names.js");
 const errors       = require("./../errors/errors.js");
 
@@ -86,23 +86,23 @@ TransactionsController.makeTransaction = async function(req, privatekey, to, amo
   if (!amount) throw new errors.ErrorMissingParameter("amount");
 
   // Check if we're paying to a name
-  const isName = krist.nameMetaRegex.test(to.toLowerCase());
+  const isName = tenebra.nameMetaRegex.test(to.toLowerCase());
   // Handle the potential legacy behaviour of manually paying to a name via the
   // transaction metadata
-  const metadataIsName = metadata && krist.metanameMetadataRegex.test(metadata);
+  const metadataIsName = metadata && tenebra.metanameMetadataRegex.test(metadata);
 
-  const nameInfo = isName ? krist.nameMetaRegex.exec(to.toLowerCase()) : undefined;
-  const metadataNameInfo = metadataIsName ? krist.metanameMetadataRegex.exec(metadata) : undefined;
+  const nameInfo = isName ? tenebra.nameMetaRegex.exec(to.toLowerCase()) : undefined;
+  const metadataNameInfo = metadataIsName ? tenebra.metanameMetadataRegex.exec(metadata) : undefined;
 
   // Verify this is a valid v2 address
-  if (!isName && !krist.isValidKristAddress(to, true))
+  if (!isName && !tenebra.isValidTenebraAddress(to, true))
     throw new errors.ErrorInvalidParameter("to");
 
   if (isNaN(amount) || amount < 1) throw new errors.ErrorInvalidParameter("amount");
   if (metadata && (!/^[\x20-\x7F\n]+$/i.test(metadata) || metadata.length > 255))
     throw new errors.ErrorInvalidParameter("metadata");
 
-  const from = krist.makeV2Address(privatekey);
+  const from = tenebra.makeV2Address(privatekey);
   amount = parseInt(amount);
 
   // Address auth validation

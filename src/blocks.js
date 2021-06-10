@@ -1,29 +1,29 @@
 /**
  * Created by Drew Lemmy, 2016-2021
  *
- * This file is part of Krist.
+ * This file is part of Tenebra.
  *
- * Krist is free software: you can redistribute it and/or modify
+ * Tenebra is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Krist is distributed in the hope that it will be useful,
+ * Tenebra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Krist. If not, see <http://www.gnu.org/licenses/>.
+ * along with Tenebra. If not, see <http://www.gnu.org/licenses/>.
  *
- * For more project information, see <https://github.com/tmpim/krist>.
+ * For more project information, see <https://github.com/tmpim/tenebra>.
  */
 
 function Blocks() {}
 module.exports = Blocks;
 
 const utils      = require("./utils.js");
-const krist      = require("./krist.js");
+const tenebra      = require("./tenebra.js");
 const websockets = require("./websockets.js");
 const schemas    = require("./schemas.js");
 const addresses  = require("./addresses.js");
@@ -36,8 +36,8 @@ const { Op }     = require("sequelize");
 
 const promClient = require("prom-client");
 const promBlockCounter = new promClient.Counter({
-  name: "krist_blocks_total",
-  help: "Total number of blocks since the Krist server started."
+  name: "tenebra_blocks_total",
+  help: "Total number of blocks since the Tenebra server started."
 });
 
 Blocks.getBlock = function(id) {
@@ -139,7 +139,7 @@ Blocks.getLegacyWork = function(blockID) {
 };
 
 Blocks.getBaseBlockValue = function(blockID) {
-  return blockID >= 222222 ? 1 : (blockID >= 100000 ? 12 : 25);
+  return blockID >= 325 ? 1 : 25;
 };
 
 Blocks.getBlockValue = async (t) => {
@@ -149,7 +149,7 @@ Blocks.getBlockValue = async (t) => {
 };
 
 Blocks.submit = async function(req, hash, address, nonce, useragent, origin) {
-  if (!await krist.isMiningEnabled())
+  if (!await tenebra.isMiningEnabled())
     throw new Error("WTF: Attempted to submit block while mining is disabled!");
 
   const { logDetails } = utils.getLogDetails(req);
@@ -160,17 +160,17 @@ Blocks.submit = async function(req, hash, address, nonce, useragent, origin) {
     const value = await Blocks.getBlockValue();
     const time = new Date();
 
-    const oldWork = await krist.getWork();
+    const oldWork = await tenebra.getWork();
 
     const seconds = (time - lastBlock.time) / 1000;
-    const targetWork = seconds * oldWork / krist.getSecondsPerBlock();
+    const targetWork = seconds * oldWork / tenebra.getSecondsPerBlock();
     const diff = targetWork - oldWork;
 
     // eslint is wrong lmao
     // eslint-disable-next-line no-shadow
-    const newWork = Math.round(Math.max(Math.min(oldWork + diff * krist.getWorkFactor(), krist.getMaxWork()), krist.getMinWork()));
+    const newWork = Math.round(Math.max(Math.min(oldWork + diff * tenebra.getWorkFactor(), tenebra.getMaxWork()), tenebra.getMinWork()));
 
-    console.log(chalk`{bold [Krist]} Submitting {bold ${value} KST} block by {bold ${address}} at {cyan ${moment().format("HH:mm:ss DD/MM/YYYY")}} ${logDetails}`);
+    console.log(chalk`{bold [Tenebra]} Submitting {bold ${value} TST} block by {bold ${address}} at {cyan ${moment().format("HH:mm:ss DD/MM/YYYY")}} ${logDetails}`);
     promBlockCounter.inc();
 
     const unpaidNames = await schemas.name.findAll({
@@ -202,10 +202,10 @@ Blocks.submit = async function(req, hash, address, nonce, useragent, origin) {
       unpaidNames.map(name => name.decrement({ unpaid: 1 }, { transaction: t }))
     ]);
 
-    // See if the address already exists before depositing Krist to it
-    const kristAddress = await addresses.getAddress(address);
-    if (kristAddress) { // Address exists, increment its balance
-      await kristAddress.increment({ balance: value, totalin: value }, { transaction: t });
+    // See if the address already exists before depositing Tenebra to it
+    const tenebraAddress = await addresses.getAddress(address);
+    if (tenebraAddress) { // Address exists, increment its balance
+      await tenebraAddress.increment({ balance: value, totalin: value }, { transaction: t });
     } else { // Address doesn't exist, create it
       await schemas.address.create({
         address,
@@ -220,11 +220,11 @@ Blocks.submit = async function(req, hash, address, nonce, useragent, origin) {
   });
 
   // Get the updated address balance to return to the API
-  const kristAddress = await addresses.getAddress(address);
+  const tenebraAddress = await addresses.getAddress(address);
 
   // Save the new work
-  console.log(chalk`        New work: {green ${newWork.toLocaleString()}} New balance: {green ${kristAddress.balance}}`);
-  await krist.setWork(newWork);
+  console.log(chalk`        New work: {green ${newWork.toLocaleString()}} New balance: {green ${tenebraAddress.balance}}`);
+  await tenebra.setWork(newWork);
 
   // Submit the new block event to all websockets (async)
   websockets.broadcastEvent({
@@ -234,7 +234,7 @@ Blocks.submit = async function(req, hash, address, nonce, useragent, origin) {
     new_work: newWork
   });
 
-  return { work: newWork, address: kristAddress, block };
+  return { work: newWork, address: tenebraAddress, block };
 };
 
 Blocks.blockToJSON = function(block) {

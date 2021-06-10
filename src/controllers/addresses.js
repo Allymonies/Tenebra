@@ -1,26 +1,26 @@
 /**
  * Created by Drew Lemmy, 2016-2021
  *
- * This file is part of Krist.
+ * This file is part of Tenebra.
  *
- * Krist is free software: you can redistribute it and/or modify
+ * Tenebra is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Krist is distributed in the hope that it will be useful,
+ * Tenebra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Krist. If not, see <http://www.gnu.org/licenses/>.
+ * along with Tenebra. If not, see <http://www.gnu.org/licenses/>.
  *
- * For more project information, see <https://github.com/tmpim/krist>.
+ * For more project information, see <https://github.com/tmpim/tenebra>.
  */
 
 const addresses = require("./../addresses.js");
-const krist     = require("./../krist.js");
+const tenebra     = require("./../tenebra.js");
 const errors    = require("./../errors/errors.js");
 
 function AddressesController() {}
@@ -54,7 +54,7 @@ AddressesController.getRich = function(limit, offset) {
 };
 
 AddressesController.getAddress = async function(address, fetchNames) {
-  if (!krist.isValidKristAddress(address))
+  if (!tenebra.isValidTenebraAddress(address))
     throw new errors.ErrorInvalidParameter("address");
 
   const result = await addresses.getAddress(address, !!fetchNames);
@@ -65,7 +65,7 @@ AddressesController.getAddress = async function(address, fetchNames) {
 
 AddressesController.getAlert = function(privatekey) {
   return new Promise(function(resolve, reject) {
-    const address = krist.makeV2Address(privatekey);
+    const address = tenebra.makeV2Address(privatekey);
 
     addresses.getAddress(address).then(function(result) {
       if (!result) {

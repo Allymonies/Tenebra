@@ -1,25 +1,25 @@
 /**
  * Created by Drew Lemmy, 2016-2021
  *
- * This file is part of Krist.
+ * This file is part of Tenebra.
  *
- * Krist is free software: you can redistribute it and/or modify
+ * Tenebra is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Krist is distributed in the hope that it will be useful,
+ * Tenebra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Krist. If not, see <http://www.gnu.org/licenses/>.
+ * along with Tenebra. If not, see <http://www.gnu.org/licenses/>.
  *
- * For more project information, see <https://github.com/tmpim/krist>.
+ * For more project information, see <https://github.com/tmpim/tenebra>.
  */
 
-const krist      = require("../krist");
+const tenebra      = require("../tenebra");
 const utils      = require("../utils");
 const errors     = require("../errors/errors");
 const websockets = require("../websockets");
@@ -135,7 +135,7 @@ module.exports = function(app) {
    * @apiSuccessExample {json} Success
    * {
    *     "ok": true,
-   *     "url": "wss://krist.ceriat.net/ba90ad70-cdfa-11e5-8cca-e1d2a26eabaf",
+   *     "url": "wss://tenebra.ceriat.net/ba90ad70-cdfa-11e5-8cca-e1d2a26eabaf",
    *     "expires": 30
      * }
    */
@@ -147,7 +147,7 @@ module.exports = function(app) {
     const urlBase = `${scheme}://${publicUrl}/`;
 
     if (privatekey) { // Auth as address if privatekey provided
-      const { authed, address } = await addresses.verify(req, krist.makeV2Address(privatekey), privatekey);
+      const { authed, address } = await addresses.verify(req, tenebra.makeV2Address(privatekey), privatekey);
       if (!authed) return utils.sendErrorToRes(req, res, new errors.ErrorAuthFailed());
 
       const token = await websockets.obtainToken(address.address, privatekey);

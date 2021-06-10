@@ -1,22 +1,22 @@
 /**
  * Created by Drew Lemmy, 2016-2021
  *
- * This file is part of Krist.
+ * This file is part of Tenebra.
  *
- * Krist is free software: you can redistribute it and/or modify
+ * Tenebra is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Krist is distributed in the hope that it will be useful,
+ * Tenebra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Krist. If not, see <http://www.gnu.org/licenses/>.
+ * along with Tenebra. If not, see <http://www.gnu.org/licenses/>.
  *
- * For more project information, see <https://github.com/tmpim/krist>.
+ * For more project information, see <https://github.com/tmpim/tenebra>.
  */
 
 const blocksController = require("./../controllers/blocks.js");
@@ -150,7 +150,7 @@ module.exports = function(app) {
 	 * @apiUse Blocks
 	 *
 	 * @apiDescription *Note*: The count may be slightly different to the limit. This is because invalid blocks are
-	 * 				   excluded from this query, and in the early days of Krist there were several invalid blocks
+	 * 				   excluded from this query, and in the early days of Tenebra there were several invalid blocks
 	 * 				   submitted.
 	 *
 	 * @apiSuccessExample {json} Success
@@ -212,7 +212,7 @@ module.exports = function(app) {
 	 * @apiUse Blocks
 	 *
 	 * @apiDescription *Note*: The count may be slightly different to the limit. This is because invalid blocks are
-	 * 				   excluded from this query, and in the early days of Krist there were several invalid blocks
+	 * 				   excluded from this query, and in the early days of Tenebra there were several invalid blocks
 	 * 				   submitted.
 	 *
 	 * @apiSuccessExample {json} Success
@@ -273,7 +273,7 @@ module.exports = function(app) {
 	 * @apiUse Blocks
 	 *
 	 * @apiDescription *Note*: The count may be slightly different to the limit. This is because invalid blocks are
-	 * 				   excluded from this query, and in the early days of Krist there were several invalid blocks
+	 * 				   excluded from this query, and in the early days of Tenebra there were several invalid blocks
 	 * 				   submitted.
 	 *
 	 * @apiSuccessExample {json} Success
@@ -323,7 +323,7 @@ module.exports = function(app) {
 	 * @apiUse Block
 	 *
 	 * @apiDescription *Note*: The count may be slightly different to the limit. This is because invalid blocks are
-	 * 				   excluded from this query, and in the early days of Krist there were several invalid blocks
+	 * 				   excluded from this query, and in the early days of Tenebra there were several invalid blocks
 	 * 				   submitted.
 	 *
 	 * @apiSuccessExample {json} Success
@@ -359,7 +359,7 @@ module.exports = function(app) {
 	 *
 	 * @apiSuccess {Number} base_value - The base block reward.
 	 *
-	 * @apiDescription Returns the base block reward - the amount of Krist rewarded for submitting a block excluding
+	 * @apiDescription Returns the base block reward - the amount of Tenebra rewarded for submitting a block excluding
 	 * 				   name rewards.
 	 *
 	 * @apiSuccessExample {json} Success
@@ -389,7 +389,7 @@ module.exports = function(app) {
 	 * @apiSuccess {Number} base_value - The base block reward.
 	 *
 	 * @apiDescription Returns the block reward - the base value plus the amount of unpaid names (names registered in
-	 * 				   the last 500 blocks). This is how much Krist will be rewarded for mining a block right now.
+	 * 				   the last 500 blocks). This is how much Tenebra will be rewarded for mining a block right now.
 	 *
 	 * @apiSuccessExample {json} Success
 	 * {

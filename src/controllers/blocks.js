@@ -1,27 +1,27 @@
 /**
  * Created by Drew Lemmy, 2016-2021
  *
- * This file is part of Krist.
+ * This file is part of Tenebra.
  *
- * Krist is free software: you can redistribute it and/or modify
+ * Tenebra is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Krist is distributed in the hope that it will be useful,
+ * Tenebra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Krist. If not, see <http://www.gnu.org/licenses/>.
+ * along with Tenebra. If not, see <http://www.gnu.org/licenses/>.
  *
- * For more project information, see <https://github.com/tmpim/krist>.
+ * For more project information, see <https://github.com/tmpim/tenebra>.
  */
 
 const constants = require("./../constants.js");
 const blocks    = require("./../blocks.js");
-const krist     = require("./../krist.js");
+const tenebra     = require("./../tenebra.js");
 const utils     = require("./../utils.js");
 const errors    = require("./../errors/errors.js");
 
@@ -94,10 +94,10 @@ BlocksController.blockToJSON = function(block) {
 };
 
 BlocksController.submitBlock = async function(req, address, rawNonce, userAgent, origin) {
-  if (!await krist.isMiningEnabled()) throw new errors.ErrorMiningDisabled();
+  if (!await tenebra.isMiningEnabled()) throw new errors.ErrorMiningDisabled();
 
   if (!address) throw new errors.ErrorMissingParameter("address");
-  if (!krist.isValidKristAddress(address, true))
+  if (!tenebra.isValidTenebraAddress(address, true))
     throw new errors.ErrorInvalidParameter("address");
 
   if (!rawNonce) throw new errors.ErrorMissingParameter("nonce");
@@ -108,10 +108,10 @@ BlocksController.submitBlock = async function(req, address, rawNonce, userAgent,
   const lastBlock = await blocks.getLastBlock();
 
   const last = lastBlock.hash.substr(0, 12);
-  const difficulty = await krist.getWork();
+  const difficulty = await tenebra.getWork();
   const hash = utils.sha256(address, last, nonce);
 
-  if (parseInt(hash.substr(0, 12), 16) <= difficulty || krist.freeNonceSubmission) {
+  if (parseInt(hash.substr(0, 12), 16) <= difficulty || tenebra.freeNonceSubmission) {
     try {
       const block = await blocks.submit(req, hash, address, nonce, userAgent, origin);
       return block;

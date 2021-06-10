@@ -1,28 +1,28 @@
 /**
  * Created by Drew Lemmy, 2016-2021
  *
- * This file is part of Krist.
+ * This file is part of Tenebra.
  *
- * Krist is free software: you can redistribute it and/or modify
+ * Tenebra is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Krist is distributed in the hope that it will be useful,
+ * Tenebra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Krist. If not, see <http://www.gnu.org/licenses/>.
+ * along with Tenebra. If not, see <http://www.gnu.org/licenses/>.
  *
- * For more project information, see <https://github.com/tmpim/krist>.
+ * For more project information, see <https://github.com/tmpim/tenebra>.
  */
 
 const names     = require("./../names.js");
 const addresses = require("./../addresses.js");
 const tx        = require("./../transactions.js");
-const krist     = require("./../krist.js");
+const tenebra     = require("./../tenebra.js");
 const errors    = require("./../errors/errors.js");
 
 function NamesController() {}
@@ -42,7 +42,7 @@ NamesController.getNames = function(limit, offset) {
 };
 
 NamesController.getName = async function(name) {
-  if (!krist.isValidName(name, true))
+  if (!tenebra.isValidName(name, true))
     throw new errors.ErrorInvalidParameter("name");
 
   const dbName = await names.getNameByName(name);
@@ -89,10 +89,10 @@ NamesController.registerName = async function(req, desiredName, privatekey) {
   if (!desiredName) throw new errors.ErrorMissingParameter("name");
   if (!privatekey) throw new errors.ErrorMissingParameter("privatekey");
 
-  if (!krist.isValidName(desiredName)) throw new errors.ErrorInvalidParameter("name");
+  if (!tenebra.isValidName(desiredName)) throw new errors.ErrorInvalidParameter("name");
 
   // Address auth validation
-  const { authed, address: dbAddress } = await addresses.verify(req, krist.makeV2Address(privatekey), privatekey);
+  const { authed, address: dbAddress } = await addresses.verify(req, tenebra.makeV2Address(privatekey), privatekey);
   if (!authed) throw new errors.ErrorAuthFailed();
 
   // Check if the name already exists
@@ -126,11 +126,11 @@ NamesController.transferName = async function(req, name, privatekey, address) {
   if (!privatekey) throw new errors.ErrorMissingParameter("privatekey");
   if (!address) throw new errors.ErrorMissingParameter("address");
 
-  if (!krist.isValidName(name)) throw new errors.ErrorInvalidParameter("name");
-  if (!krist.isValidKristAddress(address, true)) throw new errors.ErrorInvalidParameter("address");
+  if (!tenebra.isValidName(name)) throw new errors.ErrorInvalidParameter("name");
+  if (!tenebra.isValidTenebraAddress(address, true)) throw new errors.ErrorInvalidParameter("address");
 
   // Address auth validation
-  const { authed, address: dbAddress } = await addresses.verify(req, krist.makeV2Address(privatekey), privatekey);
+  const { authed, address: dbAddress } = await addresses.verify(req, tenebra.makeV2Address(privatekey), privatekey);
   if (!authed) throw new errors.ErrorAuthFailed();
 
   // Get the name from the database
@@ -171,11 +171,11 @@ NamesController.updateName = async function(req, name, privatekey, a) {
   if (!name) throw new errors.ErrorMissingParameter("name");
   if (!privatekey) throw new errors.ErrorMissingParameter("privatekey");
 
-  if (!krist.isValidName(name)) throw new errors.ErrorInvalidParameter("name");
-  if (a.trim() && !krist.isValidARecord(a)) throw new errors.ErrorInvalidParameter("a");
+  if (!tenebra.isValidName(name)) throw new errors.ErrorInvalidParameter("name");
+  if (a.trim() && !tenebra.isValidARecord(a)) throw new errors.ErrorInvalidParameter("a");
 
   // Address auth validation
-  const { authed, address: dbAddress } = await addresses.verify(req, krist.makeV2Address(privatekey), privatekey);
+  const { authed, address: dbAddress } = await addresses.verify(req, tenebra.makeV2Address(privatekey), privatekey);
   if (!authed) throw new errors.ErrorAuthFailed();
 
   // Get the name from the database

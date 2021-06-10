@@ -1,22 +1,22 @@
 /**
  * Created by Drew Lemmy, 2016-2021
  *
- * This file is part of Krist.
+ * This file is part of Tenebra.
  *
- * Krist is free software: you can redistribute it and/or modify
+ * Tenebra is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Krist is distributed in the hope that it will be useful,
+ * Tenebra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Krist. If not, see <http://www.gnu.org/licenses/>.
+ * along with Tenebra. If not, see <http://www.gnu.org/licenses/>.
  *
- * For more project information, see <https://github.com/tmpim/krist>.
+ * For more project information, see <https://github.com/tmpim/tenebra>.
  */
 
 const chalk  = require("chalk");
@@ -38,8 +38,8 @@ const secureBytes   = promisify(crypto.randomBytes);
 const promClient = require("prom-client");
 
 const promWebsocketConnectionsTotal = new promClient.Counter({
-  name: "krist_websocket_connections_total",
-  help: "Total number of new websocket connections since the Krist server started.",
+  name: "tenebra_websocket_connections_total",
+  help: "Total number of new websocket connections since the Tenebra server started.",
   labelNames: ["type"]
 });
 promWebsocketConnectionsTotal.inc({ type: "incomplete" }, 0);
@@ -47,22 +47,22 @@ promWebsocketConnectionsTotal.inc({ type: "guest" }, 0);
 promWebsocketConnectionsTotal.inc({ type: "authed" }, 0);
 
 const promWebsocketTokensTotal = new promClient.Counter({
-  name: "krist_websocket_tokens_total",
-  help: "Total number of websocket tokens created since the Krist server started.",
+  name: "tenebra_websocket_tokens_total",
+  help: "Total number of websocket tokens created since the Tenebra server started.",
   labelNames: ["type"]
 });
 promWebsocketTokensTotal.inc({ type: "guest" }, 0);
 promWebsocketTokensTotal.inc({ type: "authed" }, 0);
 
 const promWebsocketMessagesTotal = new promClient.Counter({
-  name: "krist_websocket_incoming_messages_total",
-  help: "Total number of incoming websocket messages since the Krist server started.",
+  name: "tenebra_websocket_incoming_messages_total",
+  help: "Total number of incoming websocket messages since the Tenebra server started.",
   labelNames: ["type"]
 });
 
 const promWebsocketEventBroadcastsTotal = new promClient.Counter({
-  name: "krist_websocket_event_broadcasts_total",
-  help: "Total number of websocket event broadcasts sent out since the Krist server started.",
+  name: "tenebra_websocket_event_broadcasts_total",
+  help: "Total number of websocket event broadcasts sent out since the Tenebra server started.",
   labelNames: ["event"]
 });
 // =============================================================================
@@ -102,7 +102,7 @@ module.exports.promWebsocketConnectionsTotal = promWebsocketConnectionsTotal;
 // PROMETHEUS GAUGES
 // =============================================================================
 new promClient.Gauge({
-  name: "krist_websocket_connections_current",
+  name: "tenebra_websocket_connections_current",
   help: "Current number of active websocket connections.",
   labelNames: ["type"],
   collect() {
@@ -113,7 +113,7 @@ new promClient.Gauge({
 });
 
 new promClient.Gauge({
-  name: "krist_websocket_tokens_pending_current",
+  name: "tenebra_websocket_tokens_pending_current",
   help: "Current number of pending websocket tokens.",
   collect() {
     this.set(Object.keys(Websockets.pendingTokens).length);
@@ -187,12 +187,12 @@ WebsocketsManager.prototype.addWebsocket = function(req, socket, token, auth, pk
 
     if (response instanceof Promise) {
       response.then(function(resp) {
-        Websockets.sendResponse(socket, msg, { type: "response", ...resp });
+        Websockets.sendResponse(socket, msg, resp);
       }).catch(function(err) {
-        Websockets.sendResponse(socket, msg, { type: "error", ...utils.errorToJSON(err) });
+        Websockets.sendResponse(socket, msg, utils.errorToJSON(err));
       });
     } else if (response) {
-      Websockets.sendResponse(socket, msg, { type: "response", ...response });
+      Websockets.sendResponse(socket, msg, response);
     }
   });
 
@@ -213,30 +213,30 @@ WebsocketsManager.prototype.broadcast = function(message) {
  * given websocket should receive the event. */
 function subscriptionCheck(message) {
   if (!message.event) throw new Error("Missing event type");
-
+  
   switch (message.event) {
   case "block": {
     const { address } = message.block;
     return ws => // If the ws is subscribed to 'blocks' or 'ownBlocks'
-      (!ws.isGuest && ws.auth === address && ws.subs.includes("ownBlocks"))
+      (!ws.isGuest && ws.auth === address && ws.subs.includes("ownBlocks")) 
       || ws.subs.includes("blocks");
   }
 
   case "transaction": {
     const { to, from } = message.transaction;
     return ws => // If the ws is subscribed to 'transactions' or 'ownTransactions'
-      (!ws.isGuest && (ws.auth === to || ws.auth === from) && ws.subs.includes("ownTransactions"))
+      (!ws.isGuest && (ws.auth === to || ws.auth === from) && ws.subs.includes("ownTransactions")) 
       || ws.subs.includes("transactions");
   }
 
   case "name": {
     const { owner } = message.name;
     return ws => // If the ws is subscribed to 'names' or 'ownNames'
-      (!ws.isGuest && (ws.auth === owner) && ws.subs.includes("ownNames"))
+      (!ws.isGuest && (ws.auth === owner) && ws.subs.includes("ownNames")) 
       || ws.subs.includes("names");
   }
 
-  default:
+  default: 
     throw new Error("Unknown event type " + message.event);
   }
 }
@@ -247,7 +247,7 @@ WebsocketsManager.prototype.broadcastEvent = function(message) {
 
   const subCheck = subscriptionCheck(message);
   const stringified = JSON.stringify(message);
-
+  
   let recipients = 0;
   Websockets.websockets.forEach(ws => {
     if (!subCheck(ws)) return;
@@ -300,7 +300,7 @@ WebsocketsManager.prototype.useToken = function(token) {
 const fileExists = f => fs.promises.access(f, fs.constants.F_OK).then(() => true).catch(() => false);
 WebsocketsManager.prototype.startIPC = async function() {
   console.log(chalk`{cyan [Websockets]} Starting IPC server`);
-
+  
   const ipcPath = process.env.WS_IPC_PATH;
   if (await fileExists(ipcPath)) {
     console.log(chalk`{cyan [Websockets]} Cleaning up existing IPC socket`);
@@ -359,7 +359,7 @@ WebsocketsManager.prototype.startIPC = async function() {
   const server = Websockets.ipcServer = app.listen(ipcPath, () => {
     console.log(chalk`{green [Websockets]} Started IPC server`);
   });
-
+  
   server.on("error", err => {
     console.error(chalk`{red [Websockets]} Error starting IPC:`);
     console.error(err);
@@ -392,7 +392,7 @@ if (process.env.NODE_ENV !== "test" && typeof process.env.WS_IPC_PATH === "strin
   Websockets.startIPC().catch(err => {
     console.error(chalk`{red [Websockets]} Error starting IPC:`);
     console.error(err);
-  });
+  });    
 }
 
 Websockets.keepaliveInterval = setInterval(function() {

@@ -1,22 +1,22 @@
 /**
  * Created by Drew Lemmy, 2016-2021
  *
- * This file is part of Krist.
+ * This file is part of Tenebra.
  *
- * Krist is free software: you can redistribute it and/or modify
+ * Tenebra is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Krist is distributed in the hope that it will be useful,
+ * Tenebra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Krist. If not, see <http://www.gnu.org/licenses/>.
+ * along with Tenebra. If not, see <http://www.gnu.org/licenses/>.
  *
- * For more project information, see <https://github.com/tmpim/krist>.
+ * For more project information, see <https://github.com/tmpim/tenebra>.
  */
 
 const Sequelize = require("sequelize");
@@ -35,8 +35,8 @@ Database.init = async function() {
 
   const host = process.env.DB_HOST || "127.0.0.1";
   const port = parseInt(process.env.DB_PORT) || 3306;
-  const db = isTest ? (process.env.TEST_DB_NAME || "test_krist") : (process.env.DB_NAME || "krist");
-  const user = isTest ? (process.env.TEST_DB_USER || "test_krist") : (process.env.DB_USER || "krist");
+  const db = isTest ? (process.env.TEST_DB_NAME || "test_tenebra") : (process.env.DB_NAME || "tenebra");
+  const user = isTest ? (process.env.TEST_DB_USER || "test_tenebra") : (process.env.DB_USER || "tenebra");
   const pass = isTest ? process.env.TEST_DB_PASS : process.env.DB_PASS;
 
   console.log(chalk`{cyan [DB]} Connecting to database {bold ${db}} as user {bold ${user}}...`);

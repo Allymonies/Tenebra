@@ -1,25 +1,25 @@
 /**
  * Created by Drew Lemmy, 2016-2021
  *
- * This file is part of Krist.
+ * This file is part of Tenebra.
  *
- * Krist is free software: you can redistribute it and/or modify
+ * Tenebra is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Krist is distributed in the hope that it will be useful,
+ * Tenebra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Krist. If not, see <http://www.gnu.org/licenses/>.
+ * along with Tenebra. If not, see <http://www.gnu.org/licenses/>.
  *
- * For more project information, see <https://github.com/tmpim/krist>.
+ * For more project information, see <https://github.com/tmpim/tenebra>.
  */
 
-const krist           = require("./../krist.js");
+const tenebra           = require("./../tenebra.js");
 const utils           = require("./../utils.js");
 const addresses       = require("./../addresses.js");
 const tx              = require("./../transactions.js");
@@ -164,7 +164,7 @@ module.exports = function(app) {
     }
 
     if (req.query.name_check) {
-      if (!krist.isValidName(req.query.name_check)) {
+      if (!tenebra.isValidName(req.query.name_check)) {
         return res.send("0");
       }
 
@@ -195,7 +195,7 @@ module.exports = function(app) {
   });
 
   app.get("/names/check/:name", function(req, res) {
-    if (!krist.isValidName(req.params.name)) {
+    if (!tenebra.isValidName(req.params.name)) {
       return utils.sendErrorToRes(req, res, new errors.ErrorInvalidParameter("name"));
     }
 
@@ -241,7 +241,7 @@ module.exports = function(app) {
 	 * @apiGroup NameGroup
 	 * @apiVersion 2.0.1
 	 *
-	 * @apiDescription Returns the amount of KST that is currently added to the base block reward. Essentially, this is
+	 * @apiDescription Returns the amount of TST that is currently added to the base block reward. Essentially, this is
 	 * the count of names registered in the last 500 blocks.
 	 *
 	 * @apiSuccess {Number} name_bonus The name bonus.
@@ -539,7 +539,7 @@ module.exports = function(app) {
      *         "original_owner": "kre3w0i79j",
      *         "registered": "2016-02-06T14:01:19.000Z",
      *         "updated": "2016-02-06T14:08:36.000Z",
-     *         "a": "krist.ceriat.net",
+     *         "a": "tenebra.ceriat.net",
      *     }
      * }
 	 *
@@ -580,7 +580,7 @@ module.exports = function(app) {
      *         "original_owner": "kre3w0i79j",
      *         "registered": "2016-02-06T14:01:19.000Z",
      *         "updated": "2016-02-06T14:08:36.000Z",
-     *         "a": "krist.ceriat.net",
+     *         "a": "tenebra.ceriat.net",
      *     }
      * }
 	 *

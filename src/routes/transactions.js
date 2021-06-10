@@ -1,22 +1,22 @@
 /**
  * Created by Drew Lemmy, 2016-2021
  *
- * This file is part of Krist.
+ * This file is part of Tenebra.
  *
- * Krist is free software: you can redistribute it and/or modify
+ * Tenebra is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Krist is distributed in the hope that it will be useful,
+ * Tenebra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Krist. If not, see <http://www.gnu.org/licenses/>.
+ * along with Tenebra. If not, see <http://www.gnu.org/licenses/>.
  *
- * For more project information, see <https://github.com/tmpim/krist>.
+ * For more project information, see <https://github.com/tmpim/tenebra>.
  */
 
 const tx           = require("./../transactions.js");
@@ -40,7 +40,7 @@ module.exports = function(app) {
 	 * 						a block mining reward, or `"a"` if it was a name's A record change.
 	 * @apiSuccess {String} transaction.to The recipient of this transaction. This may be `"name"` if the transaction
 	 * 						was a name purchase.
-	 * @apiSuccess {Number} transaction.value The amount of Krist transferred in this transaction. Can be `0`, notably
+	 * @apiSuccess {Number} transaction.value The amount of Tenebra transferred in this transaction. Can be `0`, notably
 	 * 						if the transaction was a name's A record change.
 	 * @apiSuccess {Date} transaction.time The time this transaction this was made.
 	 * @apiSuccess {String} [transaction.name] The name associated with this transaction, or null.
@@ -61,7 +61,7 @@ module.exports = function(app) {
 	 * 						a block mining reward, or `"a"` if it was a name's A record change.
 	 * @apiSuccess {String} transactions.to The recipient of this transaction. This may be `"name"` if the transaction
 	 *						was a name purchase.
-	 * @apiSuccess {Number} transactions.value The amount of Krist transferred in this transaction. Can be `0`, notably
+	 * @apiSuccess {Number} transactions.value The amount of Tenebra transferred in this transaction. Can be `0`, notably
 	 * 						if the transaction was a name's A record change.
 	 * @apiSuccess {Date} transactions.time The time this transaction this was made.
 	 * @apiSuccess {String} [transactions.name] The name associated with this transaction, or null.
@@ -94,7 +94,7 @@ module.exports = function(app) {
     }
 
     if (typeof req.query.pushtx !== "undefined") {
-      return res.send("v1 transactions disabled. Contact Krist team");
+      return res.send("v1 transactions disabled. Contact Tenebra team");
     }
 
     if (typeof req.query.pushtx2 !== "undefined") {
@@ -115,7 +115,7 @@ module.exports = function(app) {
         if (err.errorString === "insufficient_funds")
           return res.send("Error1"); // "Insufficient funds available"
         if (err.parameter === "amount")
-          return res.send("Error2"); // "Not enough KST in transaction"
+          return res.send("Error2"); // "Not enough TST in transaction"
         if (err.parameter === "to")
           return res.send("Error4"); // "Invalid recipient address"
         if (err.parameter === "privatekey")

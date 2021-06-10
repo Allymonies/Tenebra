@@ -1,25 +1,25 @@
 /**
  * Created by Drew Lemmy, 2016-2021
  *
- * This file is part of Krist.
+ * This file is part of Tenebra.
  *
- * Krist is free software: you can redistribute it and/or modify
+ * Tenebra is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Krist is distributed in the hope that it will be useful,
+ * Tenebra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Krist. If not, see <http://www.gnu.org/licenses/>.
+ * along with Tenebra. If not, see <http://www.gnu.org/licenses/>.
  *
- * For more project information, see <https://github.com/tmpim/krist>.
+ * For more project information, see <https://github.com/tmpim/tenebra>.
  */
 
-const krist = require("./../krist.js");
+const tenebra = require("./../tenebra.js");
 
 module.exports = function(websockets) {
   /**
@@ -31,7 +31,7 @@ module.exports = function(websockets) {
 	 * @apiParam (WebsocketParameter) {Number} id
 	 * @apiParam (WebsocketParameter) {String="work"} type
 	 *
-	 * @apiSuccess {Number} work The current Krist work (difficulty)
+	 * @apiSuccess {Number} work The current Tenebra work (difficulty)
 	 *
 	 * @apiSuccessExample {json} Success
 	 * {
@@ -42,6 +42,6 @@ module.exports = function(websockets) {
 	 */
   websockets.addMessageHandler("work", async () => ({
     ok: true,
-    work: await krist.getWork()
+    work: await tenebra.getWork()
   }));
 };

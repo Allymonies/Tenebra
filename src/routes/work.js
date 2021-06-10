@@ -1,32 +1,32 @@
 /**
  * Created by Drew Lemmy, 2016-2021
  *
- * This file is part of Krist.
+ * This file is part of Tenebra.
  *
- * Krist is free software: you can redistribute it and/or modify
+ * Tenebra is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Krist is distributed in the hope that it will be useful,
+ * Tenebra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Krist. If not, see <http://www.gnu.org/licenses/>.
+ * along with Tenebra. If not, see <http://www.gnu.org/licenses/>.
  *
- * For more project information, see <https://github.com/tmpim/krist>.
+ * For more project information, see <https://github.com/tmpim/tenebra>.
  */
 
-const krist = require("./../krist.js");
+const tenebra = require("./../tenebra.js");
 const blocks = require("./../blocks.js");
 const names = require("./../names.js");
 
 module.exports = function(app) {
   app.get("/", async function(req, res, next) {
     if (typeof req.query.getwork !== "undefined") {
-      return res.send((await krist.getWork()).toString());
+      return res.send((await tenebra.getWork()).toString());
     }
 
     next();
@@ -38,7 +38,7 @@ module.exports = function(app) {
    * @apiGroup MiscellaneousGroup
    * @apiVersion 2.0.5
    *
-   * @apiSuccess {Number} work The current Krist work (difficulty)
+   * @apiSuccess {Number} work The current Tenebra work (difficulty)
    *
    * @apiSuccessExample {json} Success
    * {
@@ -49,7 +49,7 @@ module.exports = function(app) {
   app.get("/work", async function(req, res) {
     res.json({
       ok: true,
-      work: await krist.getWork()
+      work: await tenebra.getWork()
     });
   });
 
@@ -70,7 +70,7 @@ module.exports = function(app) {
   app.get("/work/day", async function(req, res) {
     res.json({
       ok: true,
-      work: await krist.getWorkOverTime()
+      work: await tenebra.getWorkOverTime()
     });
   });
 
@@ -80,7 +80,7 @@ module.exports = function(app) {
    * @apiGroup MiscellaneousGroup
    * @apiVersion 2.6.0
    *
-   * @apiSuccess {Number} work The current Krist work (difficulty)
+   * @apiSuccess {Number} work The current Tenebra work (difficulty)
    * @apiSuccess {Number} unpaid The current number of unpaid names
    * 
    * @apiSuccess {Number} base_value The base block value
@@ -88,7 +88,7 @@ module.exports = function(app) {
    * 
    * @apiSuccess {Object} decrease Information about the next block value
    *   decrease
-   * @apiSuccess {Number} decrease[value] How much Krist the block value will
+   * @apiSuccess {Number} decrease[value] How much Tenebra the block value will
    *   decrease by when the next name(s) expire
    * @apiSuccess {Number} decrease[blocks] How many blocks before the next block
    *   value decrease
@@ -122,7 +122,7 @@ module.exports = function(app) {
     res.json({
       ok: true,
 
-      work: await krist.getWork(),
+      work: await tenebra.getWork(),
       unpaid: unpaidNames,
 
       base_value: baseValue,

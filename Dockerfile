@@ -1,18 +1,7 @@
-FROM node:14-alpine
-WORKDIR /usr/src/krist
+FROM quantumlytangled/krist:latest
 
-# Install packages
-COPY package*.json ./
-RUN apk add git ca-certificates
-RUN npm install
-
-# Install source
-COPY . .
-
-# Generate docs
-RUN npm run docs
-
-# Run Krist
-EXPOSE 8080
-ENV NODE_ENV=production
-CMD ["npm", "start"]
+COPY static/ static/
+COPY views/ views/
+COPY src/ src/
+COPY index.js index.js
+#COPY src/* /usr/src/krist/src/

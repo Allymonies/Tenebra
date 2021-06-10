@@ -14,7 +14,7 @@ a live copy of the API documentation [here](http://krist.ceriat.net/docs).
 ## Docker Installation
 
 The preferred method of installation is Docker. The Docker images are published
-on the GitHub Container Registry under `ghcr.io/tmpim/krist`.
+on the GitHub Container Registry under `ghcr.io/quantumlytangled/krist` or `quantumlytangled/krist`.
 
 MySQL/MariaDB and Redis are required too. There are two options to connect to
 the databases. The easier way is to run MySQL and Redis on the host machine,
@@ -28,12 +28,14 @@ Example usage with Docker Compose:
 version: "3.9"
 services:
   krist:
-    image: "ghcr.io/tmpim/krist:latest"
+    image: "quantumlytangled/krist"
     environment:
       - DB_PASS=${DB_PASS}
       - PUBLIC_URL=krist.ceriat.net
       - DB_HOST=172.17.0.1
       - REDIS_HOST=172.17.0.1
+      - MINING_ENABLED=true
+      - GEN_GENESIS=true
     ports:
       - "127.0.0.1:8080:8080"
     restart: unless-stopped
@@ -86,6 +88,8 @@ The following optional environment variables may also be specified:
 | `REDIS_PORT` | `6379` | The port of the redis server. |
 | `REDIS_PREFIX` | `krist:` | The prefix of the redis keys. |
 | `TEST_REDIS_PREFIX` | `test_krist:` | *Required for testing*. If `NODE_ENV` is `test` (e.g. running Jest), the prefix of the redis keys. |
+| `MINING_ENABLED` | `false` | If mining should be enabled. |
+| `GEN_GENESIS` | `false` | If Krist should force generate a genesis block. |
 | `NODE_ENV` | `development` | Either `development` or `production`. If `development`, the Krist server runs in debug mode. |
 | `FORCE_INSECURE` | `false` | If `true`, force the websocket gateway to return `ws://` URLs instead of `wss://`. Used for development only. |
 | `GITHUB_TOKEN` |  | Any valid GitHub token (e.g. a PAT with no scopes) to obtain avatars for the homepage. Completely optional. |

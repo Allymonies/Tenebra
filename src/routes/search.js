@@ -1,27 +1,27 @@
 /**
  * Created by Drew Lemmy, 2021
  *
- * This file is part of Krist.
+ * This file is part of Tenebra.
  *
- * Krist is free software: you can redistribute it and/or modify
+ * Tenebra is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Krist is distributed in the hope that it will be useful,
+ * Tenebra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Krist. If not, see <http://www.gnu.org/licenses/>.
+ * along with Tenebra. If not, see <http://www.gnu.org/licenses/>.
  *
- * For more project information, see <https://github.com/tmpim/krist>.
+ * For more project information, see <https://github.com/tmpim/tenebra>.
  */
 
 const express      = require("express");
 const rateLimit    = require("express-rate-limit");
-const Krist        = require("../krist");
+const Tenebra        = require("../tenebra");
 const Addresses    = require("../addresses");
 const Names        = require("../names");
 const Blocks       = require("../blocks");
@@ -45,10 +45,10 @@ const lookup       = require("./lookup").utils;
  *
  *   // TODO: I ended up splitting these
  *   matches: {
- *     exactAddress: KristAddress | boolean;
- *     exactName: KristName | boolean;
- *     exactBlock: KristBlock | boolean;
- *     exactTransaction: KristTransaction | boolean;
+ *     exactAddress: TenebraAddress | boolean;
+ *     exactName: TenebraName | boolean;
+ *     exactBlock: TenebraBlock | boolean;
+ *     exactTransaction: TenebraTransaction | boolean;
  *
  *     transactions: {
  *       addressInvolved: number | boolean;
@@ -60,10 +60,10 @@ const lookup       = require("./lookup").utils;
  */
 
 function parseQuery(query) {
-  const matchAddress = Krist.isValidKristAddress(query);
+  const matchAddress = Tenebra.isValidTenebraAddress(query);
 
-  const strippedName = Krist.stripNameSuffix(query);
-  const matchName = strippedName && Krist.isValidName(strippedName, true);
+  const strippedName = Tenebra.stripNameSuffix(query);
+  const matchName = strippedName && Tenebra.isValidName(strippedName, true);
 
   const cleanID = parseInt(query.replace(/[^\w]/g, ""));
   const hasID = !isNaN(cleanID);
@@ -245,15 +245,15 @@ module.exports = function(app) {
    * @apiSuccess {String} query.originalQuery The original (sanitised) query
    *   text.
    * @apiSuccess {Boolean} query.matchAddress Whether or not the query exactly
-   *   matches the format of a Krist address.
+   *   matches the format of a Tenebra address.
    * @apiSuccess {Boolean} query.matchName Whether or not the query exactly
-   *   matches the format of a Krist name (with or without the `.kst`) suffix.
+   *   matches the format of a Tenebra name (with or without the `.tst`) suffix.
    * @apiSuccess {Boolean} query.matchBlock Whether or not the query exactly
    *   matches the format of a block ID (with all non-numbers removed).
    * @apiSuccess {Boolean} query.matchTransaction Whether or not the query
    *   exactly matches the format of a transaction ID (with all non-numbers
    *   removed).
-   * @apiSuccess {String} query.strippedName The query with the `.kst` suffix
+   * @apiSuccess {String} query.strippedName The query with the `.tst` suffix
    *   stripped, if it was present.
    * @apiSuccess {Boolean} query.hasID Whether or not the query looks like an ID
    *   number (e.g. for blocks or transactions).
@@ -262,16 +262,16 @@ module.exports = function(app) {
    */
 
   /**
-   * @api {get} /search Search the Krist network
+   * @api {get} /search Search the Tenebra network
    * @apiName Search
    * @apiGroup LookupGroup
    * @apiVersion 2.8.0
    *
-   * @apiDescription Search the Krist network for objects that match the given
+   * @apiDescription Search the Tenebra network for objects that match the given
    * query, including addresses, names, blocks, and transactions.
    *
    * - Addresses are searched by exact address match only
-   * - Names are searched by their name with and without the `.kst` suffix
+   * - Names are searched by their name with and without the `.tst` suffix
    * - Blocks are searched by ID
    * - Transactions are searched by ID
    *
@@ -287,19 +287,19 @@ module.exports = function(app) {
    *
    * @apiSuccess {Object} matches The results of the search query.
    * @apiSuccess {Object} matches.exactAddress An exact address match - this
-   *   will be an Address object if the query looked like a valid Krist address,
+   *   will be an Address object if the query looked like a valid Tenebra address,
    *   and that address exists in the database. Otherwise, if there is no
    *   result, it will be `false`.
    * @apiSuccess {Object} matches.exactName An exact name match - this will be a
-   *   Name object if the query looked like a valid Krist name (with or without
-   *   the `.kst` suffix), and that name exists in the database. Otherwise, if
+   *   Name object if the query looked like a valid Tenebra name (with or without
+   *   the `.tst` suffix), and that name exists in the database. Otherwise, if
    *   there is no result, it will be `false`.
    * @apiSuccess {Object} matches.exactBlock An exact block match - this will be
-   *   a Block object if the query looked like a valid Krist block ID, and that
+   *   a Block object if the query looked like a valid Tenebra block ID, and that
    *   block exists in the database. Otherwise, if there is no result, it will
    *   be `false`.
    * @apiSuccess {Object} matches.exactTransaction An exact transaction match -
-   *   this will be a Transaction object if the query looked like a valid Krist
+   *   this will be a Transaction object if the query looked like a valid Tenebra
    *   transaction ID, and that transaction exists in the database. Otherwise,
    *   if there is no result, it will be `false`.
    *
@@ -390,7 +390,7 @@ module.exports = function(app) {
    * @apiGroup LookupGroup
    * @apiVersion 2.8.0
    *
-   * @apiDescription Search the Krist network for transactions that match the
+   * @apiDescription Search the Tenebra network for transactions that match the
    * given query. The search is more in-depth (and thus slower) than `/search`.
    *
    * - Transactions are searched by address involved (from, to)
@@ -412,12 +412,12 @@ module.exports = function(app) {
    * @apiSuccess {Number|Boolean} matches.transactions.addressInvolved The
    *   number of transactions that involve the query address (either in the
    *   `from` field or the `to` field), or `false` if the query isn't a valid
-   *   Krist address.
+   *   Tenebra address.
    * @apiSuccess {Number|Boolean} matches.transactions.nameInvolved The number
    *   of transactions that involve the query name (either as a direct
    *   transfer/update, or as a transaction sent to a name; the `name` and
    *   `sent_name` fields respectively), or `false` if the query isn't a valid
-   *   Krist name.
+   *   Tenebra name.
    * @apiSuccess {Number|Boolean} matches.transactions.metadata The number of
    *   transactions with metadata containing the query string.
    *
@@ -425,7 +425,7 @@ module.exports = function(app) {
    * {
    *   "ok": true,
    *   "query": {
-   *     "originalQuery": "sc.kst",
+   *     "originalQuery": "sc.tst",
    *     "matchAddress": false,
    *     "matchName": true,
    *     "matchBlock": false,
@@ -462,7 +462,7 @@ module.exports = function(app) {
    * @apiGroup LookupGroup
    * @apiVersion 2.8.11
    *
-   * @apiDescription Search the Krist network for transactions that match the
+   * @apiDescription Search the Tenebra network for transactions that match the
    * given query and return the results. The type can be either `address`,
    * `name` or `metadata`.
    *

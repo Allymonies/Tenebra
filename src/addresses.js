@@ -1,22 +1,22 @@
 /**
  * Created by Drew Lemmy, 2016-2021
  *
- * This file is part of Krist.
+ * This file is part of Tenebra.
  *
- * Krist is free software: you can redistribute it and/or modify
+ * Tenebra is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Krist is distributed in the hope that it will be useful,
+ * Tenebra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Krist. If not, see <http://www.gnu.org/licenses/>.
+ * along with Tenebra. If not, see <http://www.gnu.org/licenses/>.
  *
- * For more project information, see <https://github.com/tmpim/krist>.
+ * For more project information, see <https://github.com/tmpim/tenebra>.
  */
 
 const chalk     = require("chalk");
@@ -28,8 +28,8 @@ const { Op, QueryTypes } = require("sequelize");
 
 const promClient = require("prom-client");
 const promAddressesVerifiedCounter = new promClient.Counter({
-  name: "krist_addresses_verified_total",
-  help: "Total number of addresses verified since the Krist server started.",
+  name: "tenebra_addresses_verified_total",
+  help: "Total number of addresses verified since the Tenebra server started.",
   labelNames: ["type"]
 });
 
@@ -130,23 +130,23 @@ Addresses.logAuth = async function(req, address, type) {
   });
 };
 
-Addresses.verify = async function(req, kristAddress, privatekey) {
+Addresses.verify = async function(req, tenebraAddress, privatekey) {
   const { path, logDetails } = utils.getLogDetails(req);
 
-  console.log(chalk`{cyan [Auth]} ({bold ${path}}) Auth attempt on address {bold ${kristAddress}} ${logDetails}`);
+  console.log(chalk`{cyan [Auth]} ({bold ${path}}) Auth attempt on address {bold ${tenebraAddress}} ${logDetails}`);
   promAddressesVerifiedCounter.inc({ type: "attempt" });
 
-  const hash = utils.sha256(kristAddress + privatekey);
-  const address = await Addresses.getAddress(kristAddress);
+  const hash = utils.sha256(tenebraAddress + privatekey);
+  const address = await Addresses.getAddress(tenebraAddress);
   if (!address) { // Unseen address, create it
     const newAddress = await schemas.address.create({
-      address: kristAddress,
+      address: tenebraAddress,
       firstseen: new Date(),
       balance: 0, totalin: 0, totalout: 0,
       privatekey: hash
     });
 
-    Addresses.logAuth(req, kristAddress, "auth");
+    Addresses.logAuth(req, tenebraAddress, "auth");
     promAddressesVerifiedCounter.inc({ type: "authed" });
     return { authed: true, address: newAddress };
   }
@@ -154,15 +154,15 @@ Addresses.verify = async function(req, kristAddress, privatekey) {
   if (address.privatekey) { // Address exists, auth if the privatekey is equal
     const authed = !address.locked && address.privatekey === hash;
 
-    if (authed) Addresses.logAuth(req, kristAddress, "auth");
-    else console.log(chalk`{red [Auth]} ({bold ${path}}) Auth failed on address {bold ${kristAddress}} ${logDetails}`);
+    if (authed) Addresses.logAuth(req, tenebraAddress, "auth");
+    else console.log(chalk`{red [Auth]} ({bold ${path}}) Auth failed on address {bold ${tenebraAddress}} ${logDetails}`);
 
     promAddressesVerifiedCounter.inc({ type: authed ? "authed" : "failed" });
     return { authed, address };
   } else { // Address doesn't yet have a privatekey, claim it as the first
     const updatedAddress = await address.update({ privatekey: hash });
 
-    Addresses.logAuth(req, kristAddress, "auth");
+    Addresses.logAuth(req, tenebraAddress, "auth");
     promAddressesVerifiedCounter.inc({ type: "authed" });
     return { authed: true, address: updatedAddress };
   }

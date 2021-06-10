@@ -1,31 +1,31 @@
 /**
  * Created by Drew Lemmy, 2021
  *
- * This file is part of Krist.
+ * This file is part of Tenebra.
  *
- * Krist is free software: you can redistribute it and/or modify
+ * Tenebra is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Krist is distributed in the hope that it will be useful,
+ * Tenebra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Krist. If not, see <http://www.gnu.org/licenses/>.
+ * along with Tenebra. If not, see <http://www.gnu.org/licenses/>.
  *
- * For more project information, see <https://github.com/tmpim/krist>.
+ * For more project information, see <https://github.com/tmpim/tenebra>.
  */
 
 const package = require("../package.json");
-const krist = require("./krist");
+const tenebra = require("./tenebra");
 const blocks = require("./blocks");
 const constants = require("./constants");
 
 async function getDetailedMOTD() {
-  const { motd, motd_set, debug_mode } = await krist.getMOTD();
+  const { motd, motd_set, debug_mode } = await tenebra.getMOTD();
   const lastBlock = await blocks.getLastBlock();
 
   return {
@@ -36,10 +36,10 @@ async function getDetailedMOTD() {
     motd_set,
 
     public_url: process.env.PUBLIC_URL || "localhost:8080",
-    mining_enabled: await krist.isMiningEnabled(),
+    mining_enabled: await tenebra.isMiningEnabled(),
     debug_mode,
 
-    work: await krist.getWork(),
+    work: await tenebra.getWork(),
     last_block: lastBlock ? blocks.blockToJSON(lastBlock) : null,
 
     package: {
@@ -61,15 +61,15 @@ async function getDetailedMOTD() {
     },
 
     currency: {
-      address_prefix: "k",
-      name_suffix: "kst",
+      address_prefix: "t",
+      name_suffix: "tst",
 
-      currency_name: "Krist",
-      currency_symbol: "KST"
+      currency_name: "Tenebra",
+      currency_symbol: "TST"
     },
 
     // NOTE: It is against the license to modify this string on a fork node
-    notice: "Krist was originally created by 3d6 and Lemmmy. It is now owned"
+    notice: "Tenebra was originally created by 3d6 and Lemmmy. It is now owned"
           + " and operated by tmpim, and licensed under GPL-3.0."
   };
 }

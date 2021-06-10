@@ -1,26 +1,26 @@
 /**
  * Created by Drew Lemmy, 2020
  *
- * This file is part of Krist.
+ * This file is part of Tenebra.
  *
- * Krist is free software: you can redistribute it and/or modify
+ * Tenebra is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Krist is distributed in the hope that it will be useful,
+ * Tenebra is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Krist. If not, see <http://www.gnu.org/licenses/>.
+ * along with Tenebra. If not, see <http://www.gnu.org/licenses/>.
  *
- * For more project information, see <https://github.com/tmpim/krist>.
+ * For more project information, see <https://github.com/tmpim/tenebra>.
  */
 
 const express      = require("express");
-const krist        = require("../krist");
+const tenebra        = require("../tenebra");
 const Addresses    = require("../addresses");
 const Blocks       = require("../blocks");
 const Transactions = require("../transactions");
@@ -42,7 +42,7 @@ const NAME_FIELDS = ["name", "owner", "original_owner", "registered", "updated",
  * if it is valid, or throwing an error if it is not. */
 function validateAddressList(addressList) {
   // If it doesn't match the address list regex, error
-  if (!krist.isValidKristAddressList(addressList))
+  if (!tenebra.isValidTenebraAddressList(addressList))
     throw new errors.ErrorInvalidParameter("addresses");
 
   // Deserialize, clean up, and deduplicate address list
@@ -110,7 +110,7 @@ module.exports = function(app) {
   /**
 	 * @apiDefine LookupGroup Lookup API
 	 *
-	 * Advanced bulk lookup queries designed for KristWeb v2.
+	 * Advanced bulk lookup queries designed for TenebraWeb v2.
    *
    * **WARNING:** The Lookup API is in Beta, and is subject to change at any
    * time without warning.
@@ -123,8 +123,8 @@ module.exports = function(app) {
    * @apiVersion 2.1.3
    *
    * @apiDescription Return an object containing the given address(es). Any
-   * addresses that do not exist on the Krist server (i.e. they have not been
-   * logged in to, or have not received Krist) will be assigned `null` in the
+   * addresses that do not exist on the Tenebra server (i.e. they have not been
+   * logged in to, or have not received Tenebra) will be assigned `null` in the
    * object.
    *
    * **WARNING:** The Lookup API is in Beta, and is subject to change at any
@@ -243,7 +243,7 @@ module.exports = function(app) {
    *     },
    *     {
    *       "height": 1187992,
-   *       "address": "kristallie",
+   *       "address": "tenebraallie",
    *       "hash": "00000000004fd4ededc6edc7528c99f10e74cdecd88627a5a98df9431f52473b",
    *       "short_hash": "00000000004f",
    *       "value": 152,
@@ -326,7 +326,7 @@ module.exports = function(app) {
    *       "value": 7000,
    *       "time": "2018-12-29T13:02:05.000Z",
    *       "name": null,
-   *       "metadata": "lignum@switchcraft.kst",
+   *       "metadata": "lignum@switchcraft.tst",
    *       "type": "transfer"
    *     },
    *     {
@@ -493,7 +493,7 @@ module.exports = function(app) {
    *       "value": 7000,
    *       "time": "2018-12-29T13:02:05.000Z",
    *       "name": null,
-   *       "metadata": "lignum@switchcraft.kst",
+   *       "metadata": "lignum@switchcraft.tst",
    *       "type": "transfer"
    *     },
    *     {
@@ -575,7 +575,7 @@ module.exports = function(app) {
    *       "value": 7000,
    *       "time": "2018-12-29T13:02:05.000Z",
    *       "name": null,
-   *       "metadata": "lignum@switchcraft.kst",
+   *       "metadata": "lignum@switchcraft.tst",
    *       "type": "transfer"
    *     },
    *     {
