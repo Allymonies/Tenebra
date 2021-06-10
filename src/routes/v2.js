@@ -45,7 +45,7 @@ module.exports = function(app) {
 	 * @apiSuccessExample {json} Success
 	 * {
 	 *     "ok": true,
-	 *     "address": "kre3w0i79j"
+	 *     "address": "tre3w0i79j"
      * }
 	 */
   app.post("/v2", function(req, res) {

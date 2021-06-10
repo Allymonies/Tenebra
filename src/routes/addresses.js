@@ -238,14 +238,14 @@ module.exports = function(app) {
 	 *          "total": 500,
 	 *          "addresses": [
 	 *              {
-	 *                  "address": "k2sdlnjo1m",
+	 *                  "address": "t2sdlnjo1m",
 	 *                  "balance": 762010,
 	 *                  "totalin": 11316,
 	 *                  "totalout": 783984,
 	 *                  "firstseen": "2016-01-24T05:08:14.000Z"
 	 *              },
 	 *              {
-	 *                  "address": "k7u9sa6vbf",
+	 *                  "address": "t7u9sa6vbf",
 	 *                  "balance": 505832,
 	 *                  "totalin": 547785,
 	 *                  "totalout": 41953,
@@ -289,7 +289,7 @@ module.exports = function(app) {
 	 * {
 	 *     "ok": true,
 	 *     "address": {
-	 *         "address": "kre3w0i79j",
+	 *         "address": "tre3w0i79j",
 	 *         "balance": 86945,
 	 *         "totalin": 123364,
 	 *         "totalout": 38292,
@@ -350,7 +350,7 @@ module.exports = function(app) {
      *     "names": [
      *         {
      *             "name": "supercoolname",
-     *             "owner": "kre3w0i79j",
+     *             "owner": "tre3w0i79j",
      *             "registered": "2016-01-30T15:45:55.000Z",
      *             "updated": "2016-01-30T15:45:55.000Z",
      *             "a": null
@@ -412,8 +412,8 @@ module.exports = function(app) {
      *     "transactions": [
      *         {
      *             "id": 153197,
-     *             "from": "kxxhsp1uzh",
-     *             "to": "kre3w0i79j",
+     *             "from": "txxhsp1uzh",
+     *             "to": "tre3w0i79j",
      *             "value": 75,
      *             "time": "2016-02-02T23:30:51.000Z",
      *             "name": null,
@@ -422,8 +422,8 @@ module.exports = function(app) {
      *         },
      *         {
      *             "id": 153196,
-     *             "from": "kre3w0i79j",
-     *             "to": "kxxhsp1uzh",
+     *             "from": "tre3w0i79j",
+     *             "to": "txxhsp1uzh",
      *             "value": 50,
      *             "time": "2016-02-02T23:30:39.000Z",
      *             "name": null,

@@ -282,15 +282,15 @@ module.exports = function(app) {
      *     "names": [
      *         {
      *             "name": "0",
-     *             "owner": "kxxxxxxxxx",
-     *             "original_owner": "kmr20h6bvb",
+     *             "owner": "txxxxxxxxx",
+     *             "original_owner": "tmr20h6bvb",
      *             "registered": "2015-05-10T20:56:37.000Z",
      *             "updated": "2020-01-04T05:07:45.000Z",
      *             "a": null
      *         },
      *         {
      *             "name": "00",
-     *             "owner": "k9qyx784k7",
+     *             "owner": "t9qyx784k7",
      *             "registered": "2015-05-14T14:35:40.000Z",
      *             "updated": "2015-05-24T22:47:56.000Z",
      *             "a": null
@@ -340,16 +340,16 @@ module.exports = function(app) {
      *     "names": [
      *         {
      *             "name": "0",
-     *             "owner": "kxxxxxxxxx",
-     *             "original_owner": "kmr20h6bvb",
+     *             "owner": "txxxxxxxxx",
+     *             "original_owner": "tmr20h6bvb",
      *             "registered": "2015-05-10T20:56:37.000Z",
      *             "updated": "2020-01-04T05:07:45.000Z",
      *             "a": null
      *         },
      *         {
      *             "name": "00",
-     *             "owner": "k9qyx784k7",
-     *             "original_owner": "k9qyx784k7",
+     *             "owner": "t9qyx784k7",
+     *             "original_owner": "t9qyx784k7",
      *             "registered": "2015-05-14T14:35:40.000Z",
      *             "updated": "2015-05-24T22:47:56.000Z",
      *             "a": null
@@ -390,8 +390,8 @@ module.exports = function(app) {
      *     "ok": true,
      *     "name": {
      *         "name": "00",
-     *         "owner": "k9qyx784k7",
-     *         "original_owner": "k9qyx784k7",
+     *         "owner": "t9qyx784k7",
+     *         "original_owner": "t9qyx784k7",
      *         "registered": "2015-05-14T14:35:40.000Z",
      *         "updated": "2015-05-24T22:47:56.000Z",
      *         "a": null
@@ -474,8 +474,8 @@ module.exports = function(app) {
      *     "ok": true,
      *     "name": {
      *         "name": "example",
-     *         "owner": "kre3w0i79j",
-     *         "original_owner": "kre3w0i79j",
+     *         "owner": "tre3w0i79j",
+     *         "original_owner": "tre3w0i79j",
      *         "registered": "2016-02-06T14:01:19.000Z",
      *         "updated": "2016-02-06T14:08:36.000Z",
      *         "a": null,
@@ -535,8 +535,8 @@ module.exports = function(app) {
      *     "ok": true,
      *     "name": {
      *         "name": "example",
-     *         "owner": "kre3w0i79j",
-     *         "original_owner": "kre3w0i79j",
+     *         "owner": "tre3w0i79j",
+     *         "original_owner": "tre3w0i79j",
      *         "registered": "2016-02-06T14:01:19.000Z",
      *         "updated": "2016-02-06T14:08:36.000Z",
      *         "a": "tenebra.ceriat.net",
@@ -576,8 +576,8 @@ module.exports = function(app) {
      *     "ok": true,
      *     "name": {
      *         "name": "example",
-     *         "owner": "kre3w0i79j",
-     *         "original_owner": "kre3w0i79j",
+     *         "owner": "tre3w0i79j",
+     *         "original_owner": "tre3w0i79j",
      *         "registered": "2016-02-06T14:01:19.000Z",
      *         "updated": "2016-02-06T14:08:36.000Z",
      *         "a": "tenebra.ceriat.net",

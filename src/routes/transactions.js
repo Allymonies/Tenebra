@@ -223,7 +223,7 @@ module.exports = function(app) {
      *         {
      *             "id": 153287,
      *             "from": null,
-     *             "to": "kre3w0i79j",
+     *             "to": "tre3w0i79j",
      *             "value": 14,
      *             "time": "2016-02-06T19:22:41.000Z",
      *             "name": null,
@@ -234,7 +234,7 @@ module.exports = function(app) {
      *         },
      *         {
      *             "id": 153286,
-     *             "from": "kxxhsp1uzh",
+     *             "from": "txxhsp1uzh",
      *             "to": "name",
      *             "value": 500,
      *             "time": "2016-02-06T14:01:19.000Z",
@@ -280,8 +280,8 @@ module.exports = function(app) {
      *     "ok": true,
      *     "transaction": {
      *         "id": 153282,
-     *         "from": "kh9w36ea1b",
-     *         "to": "kutlg1kzhz",
+     *         "from": "th9w36ea1b",
+     *         "to": "tutlg1kzhz",
      *         "value": 56610,
      *         "time": "2016-02-03T19:15:32.000Z",
      *         "name": null,

@@ -1,7 +1,7 @@
 {
-  "name": "krist",
-  "version": "2.14",
-  "description": "The new Krist node written in node.js.",
+  "name": "tenebra",
+  "version": "2.14.0",
+  "description": "The new Tenebra node written in node.js.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tmpim/Krist"
+    "url": "https://github.com/Allymonies/Tenebra"
   },
   "author": "Lemmmy",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/tmpim/Krist/issues"
+    "url": "https://github.com/Allymonies/Tenebra/issues"
   },
-  "homepage": "https://github.com/tmpim/Krist",
+  "homepage": "https://github.com/Allymonies/Tenebra",
   "dependencies": {
     "@octokit/rest": "^18.0.12",
     "body-parser": "^1.14.2",
@@ -55,9 +55,9 @@
     "websocket-as-promised": "^2.0.1"
   },
   "apidoc": {
-    "title": "Krist",
-    "url": "https://krist.ceriat.net",
-    "description": "This is the documentation for the new Krist API.",
+    "title": "Tenebra",
+    "url": "https://tenebra.lil.gay",
+    "description": "This is the documentation for the new Tenebra API.",
     "order": [
       "AddressGroup",
       "GetAddress",

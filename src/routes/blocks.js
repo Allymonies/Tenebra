@@ -222,7 +222,7 @@ module.exports = function(app) {
      *     "blocks": [
      *         {
      *             "height": 122225,
-     *             "address": "kre3w0i79j",
+     *             "address": "tre3w0i79j",
      *             "hash": "1aa36f210f2e07b666646ac7dac3ea972262a6a474419edfc058e4402d40538d",
      *             "short_hash": "1aa36f210f2e",
      *             "value": 12,
@@ -230,7 +230,7 @@ module.exports = function(app) {
      *         },
      *         {
      *             "height": 122224,
-     *             "address": "k123456789",
+     *             "address": "t123456789",
      *             "hash": "000000f31b3ca2cf166d0ee669cd2ae2be6ea0fc35d1cf1e7b52811ecb358796",
      *             "short_hash": "000000f31b3c",
      *             "value": 12,
@@ -283,7 +283,7 @@ module.exports = function(app) {
      *     "blocks": [
      *         {
      *             "height": 110128,
-     *             "address": "k5ztameslf",
+     *             "address": "t5ztameslf",
      *             "hash": "000000000000fd42f2c046d9c0f99b6534c1e04a87902ebff7ed4396d1f5b4ea",
      *             "short_hash": "000000000000",
      *             "value": 12,
@@ -291,7 +291,7 @@ module.exports = function(app) {
      *         },
      *         {
      *             "height": 113253,
-     *             "address": "k5ztameslf",
+     *             "address": "t5ztameslf",
      *             "hash": "000000000001285d349f8781ac4f1d155472178e1150c0eb6a1cf4e441320f2c",
      *             "short_hash": "000000000001",
      *             "value": 14,
@@ -331,7 +331,7 @@ module.exports = function(app) {
      *     "ok": true,
      *     "block": {
      *         "height": 122225,
-     *         "address": "kre3w0i79j",
+     *         "address": "tre3w0i79j",
      *         "hash": "1aa36f210f2e07b666646ac7dac3ea972262a6a474419edfc058e4402d40538d",
      *         "short_hash": "1aa36f210f2e",
      *         "value": 12,

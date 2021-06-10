@@ -99,7 +99,7 @@ module.exports = function(app) {
    *   "work": 100000,
    *   "last_block": {
    *     "height": 2,
-   *     "address": "k8juvewcui",
+   *     "address": "t8juvewcui",
    *     "hash": "000000012697b461b9939933d5dec0cae546b7ec61b2d09a92226474711f0819",
    *     "short_hash": "000000012697",
    *     "value": 29,
@@ -123,7 +123,7 @@ module.exports = function(app) {
    *     "seconds_per_block": 60
    *   },
    *   "currency": {
-   *     "address_prefix": "k",
+   *     "address_prefix": "t",
    *     "name_suffix": "tst",
    *     "currency_name": "Tenebra",
    *     "currency_symbol": "TST"

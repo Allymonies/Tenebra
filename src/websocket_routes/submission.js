@@ -48,7 +48,7 @@ module.exports = function(websockets) {
      *     "success": true,
      *     "work": 18750,
      *     "address": {
-     *         "address": "kre3w0i79j",
+     *         "address": "tre3w0i79j",
      *         "balance": 925378,
      *         "totalin": 925378,
      *         "totalout": 0,
@@ -56,7 +56,7 @@ module.exports = function(websockets) {
      *     },
      *     "block": {
      *         "height": 122226,
-     *         "address": "kre3w0i79j",
+     *         "address": "tre3w0i79j",
      *         "hash": "000000007abc9f0cafaa8bf85d19817ee4f5c41ae758de3ad419d62672423ef",
      *         "short_hash": "000000007ab",
      *         "value": 14,

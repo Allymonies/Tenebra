@@ -319,7 +319,7 @@ module.exports = function(app) {
    *     "exactAddress": false,
    *     "exactName": {
    *       "name": "example",
-   *       "owner": "kxxxxxxxxx",
+   *       "owner": "txxxxxxxxx",
    *       "registered": "2015-05-24T00:49:04.000Z",
    *       "updated": "2020-01-04T05:09:11.000Z",
    *       "a": null
@@ -346,7 +346,7 @@ module.exports = function(app) {
    *     "exactAddress": false,
    *     "exactName": {
    *       "name": "1234",
-   *       "owner": "krazedrugz",
+   *       "owner": "trazedrugz",
    *       "registered": "2016-10-07T15:55:48.000Z",
    *       "updated": "2016-10-07T15:55:48.000Z",
    *       "a": null

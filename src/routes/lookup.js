@@ -151,21 +151,21 @@ module.exports = function(app) {
    *   "addresses": {
    *     "kfakeaddy0": null,
    *     "khugepoopy": {
-   *       "address": "khugepoopy",
+   *       "address": "thugepoopy",
    *       "balance": 433,
    *       "totalin": 467572,
    *       "totalout": 242505,
    *       "firstseen": "2017-04-12T20:23:02.000Z"
    *     },
    *     "kreichdyes": {
-   *       "address": "kreichdyes",
+   *       "address": "treichdyes",
    *       "balance": 210,
    *       "totalin": 65518,
    *       "totalout": 69767,
    *       "firstseen": "2018-06-28T17:30:50.000Z"
    *     },
    *     "kre3w0i79j": {
-   *       "address": "kre3w0i79j",
+   *       "address": "tre3w0i79j",
    *       "balance": 0,
    *       "totalin": 227329,
    *       "totalout": 227277,
@@ -234,7 +234,7 @@ module.exports = function(app) {
    *   "blocks": [
    *     {
    *       "height": 101496,
-   *       "address": "k5ztameslf",
+   *       "address": "t5ztameslf",
    *       "hash": "00000000224f08def4a2cef05fed91abdf8eb03feb79d80fe2b187487d2ad06b",
    *       "short_hash": "00000000224f",
    *       "value": 3013,
@@ -321,8 +321,8 @@ module.exports = function(app) {
    *   "transactions": [
    *     {
    *       "id": 892595,
-   *       "from": "khugepoopy",
-   *       "to": "kqxhx5yn9v",
+   *       "from": "thugepoopy",
+   *       "to": "tqxhx5yn9v",
    *       "value": 7000,
    *       "time": "2018-12-29T13:02:05.000Z",
    *       "name": null,
@@ -331,8 +331,8 @@ module.exports = function(app) {
    *     },
    *     {
    *       "id": 1454706,
-   *       "from": "k5cfswitch",
-   *       "to": "khugepoopy",
+   *       "from": "t5cfswitch",
+   *       "to": "thugepoopy",
    *       "value": 5050,
    *       "time": "2020-01-20T00:01:47.000Z",
    *       "name": null,
@@ -412,14 +412,14 @@ module.exports = function(app) {
    *   "names": [
    *     {
    *       "name": "ahh11",
-   *       "owner": "khugepoopy",
+   *       "owner": "thugepoopy",
    *       "registered": "2016-06-12T13:21:41.000Z",
    *       "updated": "2018-04-06T16:54:53.000Z",
    *       "a": ""
    *     },
    *     {
    *       "name": "antiblock",
-   *       "owner": "kreichdyes",
+   *       "owner": "treichdyes",
    *       "registered": "2020-01-25T12:18:14.000Z",
    *       "updated": "2020-01-25T12:18:14.000Z",
    *       "a": null
@@ -488,8 +488,8 @@ module.exports = function(app) {
    *   "transactions": [
    *     {
    *       "id": 892595,
-   *       "from": "khugepoopy",
-   *       "to": "kqxhx5yn9v",
+   *       "from": "thugepoopy",
+   *       "to": "tqxhx5yn9v",
    *       "value": 7000,
    *       "time": "2018-12-29T13:02:05.000Z",
    *       "name": null,
@@ -498,8 +498,8 @@ module.exports = function(app) {
    *     },
    *     {
    *       "id": 1454706,
-   *       "from": "k5cfswitch",
-   *       "to": "khugepoopy",
+   *       "from": "t5cfswitch",
+   *       "to": "thugepoopy",
    *       "value": 5050,
    *       "time": "2020-01-20T00:01:47.000Z",
    *       "name": null,
@@ -570,8 +570,8 @@ module.exports = function(app) {
    *   "transactions": [
    *     {
    *       "id": 892595,
-   *       "from": "khugepoopy",
-   *       "to": "kqxhx5yn9v",
+   *       "from": "thugepoopy",
+   *       "to": "tqxhx5yn9v",
    *       "value": 7000,
    *       "time": "2018-12-29T13:02:05.000Z",
    *       "name": null,
@@ -580,8 +580,8 @@ module.exports = function(app) {
    *     },
    *     {
    *       "id": 1454706,
-   *       "from": "k5cfswitch",
-   *       "to": "khugepoopy",
+   *       "from": "t5cfswitch",
+   *       "to": "thugepoopy",
    *       "value": 5050,
    *       "time": "2020-01-20T00:01:47.000Z",
    *       "name": null,
