@@ -166,6 +166,7 @@ module.exports = {
       Block.sync({ force }),
       Name.sync({ force }),
       Transaction.sync({ force }),
+      Stake.sync({ force }),
       AuthLog.sync({ force })
     ]);
   }
