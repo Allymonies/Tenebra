@@ -82,7 +82,6 @@
       "GetLatestTransactions",
       "GetTransaction",
       "MakeTransaction",
-      "StakingGroup",
       "NameGroup",
       "GetName",
       "GetNames",
