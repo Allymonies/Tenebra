@@ -118,6 +118,25 @@ const Transaction = database.getSequelize().define("transaction", {
   ]
 });
 
+const Stake = database.getSequelize().define("stake", {
+  owner: Sequelize.STRING(10),
+  amount: Sequelize.INTEGER.UNSIGNED,
+  active: Sequelize.BOOLEAN,
+}, {
+  timestamps: false,
+  indexes: [
+    { // Index on 'owner'
+      fields: ["owner"]
+    },
+    { // Index on 'amount'
+      fields: ["amount"]
+    },
+    { // Index on 'active'
+      fields: ["active"]
+    }
+  ]
+});
+
 const AuthLog = database.getSequelize().define("authlog", {
   address: Sequelize.STRING(10),
   ip: Sequelize.STRING(47),
