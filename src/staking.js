@@ -106,6 +106,9 @@ Staking.deposit = async function(staker, amount, dbTx) {
     transactions.createTransaction("staking", staker.address, amount, null, null, dbTx, null, null, null, null),
   ]);
 
+  staker.stake += amount;
+  staker.stake_active = true;
+
   return staker;
 
 };
@@ -120,11 +123,14 @@ Staking.withdraw = async function(staker, amount, dbTx) {
     staker.decrement({ stake: amount}, { transaction: dbTx }),
 
     // Set their stake to active if they still have a stake remaining
-    staker.update({"stake_active": staker.stake > 0}),
+    staker.update({"stake_active": (staker.stake - amount) > 0}),
 
     // Create the transaction
     transactions.createTransaction(staker.address, "staking", amount, null, null, dbTx, null, null, null, null),
   ]);
+
+  staker.stake -= amount;
+  staker.stake_active = staker.stake > 0;
 
   return staker;
 
