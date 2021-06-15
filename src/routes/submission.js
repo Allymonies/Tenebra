@@ -121,6 +121,13 @@ module.exports = function(app) {
    *     "error": "invalid_parameter",
    *     "parameter": "nonce"
    * }
+   * 
+   * @apiErrorExample {json} Unselected Validator
+	 * {
+   *     "ok": false,
+   *     "success": false,
+   *     "error": "unselected_validator"
+   * }
 	 */
   app.post("/submit", async function(req, res) {
     try {

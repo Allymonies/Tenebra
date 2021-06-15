@@ -19,7 +19,6 @@
  * For more project information, see <https://github.com/allymonies/tenebra>.
  */
 
-const staking           = require("./../staking.js");
 const stakingController = require("./../controllers/staking.js");
 const utils             = require("./../utils.js");
 const moment            = require("moment");
@@ -206,6 +205,34 @@ module.exports = function(app) {
         ok: true,
         stake: stakingController.stakeToJSON(stake)
       });
+    } catch (err) {
+      utils.sendErrorToRes(req, res, err);
+    }
+  });
+
+  /**
+	 * @api {get} /staking/validator Get the current validator
+	 * @apiName GetValidator
+	 * @apiGroup StakingGroup
+	 * @apiVersion 2.15.0
+	 *
+	 * @apiUse Stake
+	 *
+	 * @apiSuccessExample {json} Success
+	 * {
+	 *     "ok": true,
+	 *     "validator": "tttttttttt"
+	 * }
+	 */
+   app.get("/staking/validator", async function(req, res) {
+
+    try {
+      const validator = await stakingController.getValidator();
+
+      res.json({
+        ok: true,
+        validator: validator
+      })
     } catch (err) {
       utils.sendErrorToRes(req, res, err);
     }

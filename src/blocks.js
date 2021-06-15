@@ -23,10 +23,11 @@ function Blocks() {}
 module.exports = Blocks;
 
 const utils      = require("./utils.js");
-const tenebra      = require("./tenebra.js");
+const tenebra    = require("./tenebra.js");
 const websockets = require("./websockets.js");
 const schemas    = require("./schemas.js");
 const addresses  = require("./addresses.js");
+const staking    = require("./staking.js");
 const names      = require("./names.js");
 const tx         = require("./transactions.js");
 const moment     = require("moment");
@@ -100,11 +101,12 @@ Blocks.getBaseBlockValue = function(blockID) {
 Blocks.getBlockValue = async (t) => {
   const lastBlock = await Blocks.getLastBlock(t);
   const unpaidNames = await names.getUnpaidNameCount(t);
-  return Blocks.getBaseBlockValue(lastBlock.id) + unpaidNames;
+  const unpaidPenalties = await staking.getUnpaidPenaltyCount(t);
+  return Blocks.getBaseBlockValue(lastBlock.id) + unpaidNames + unpaidPenalties;
 };
 
 Blocks.submit = async function(req, hash, address, nonce, useragent, origin) {
-  if (!await tenebra.isMiningEnabled())
+  if (!await tenebra.isMiningEnabled() && !await tenebra.isStakingEnabled())
     throw new Error("WTF: Attempted to submit block while mining is disabled!");
 
   const { logDetails } = utils.getLogDetails(req);
@@ -134,6 +136,16 @@ Blocks.submit = async function(req, hash, address, nonce, useragent, origin) {
       }
     }, { transaction: t });
 
+    const unpaidPenalties = await schemas.address.findAll({
+      where: {
+        penalty: { [Op.gt]: 0 }
+      }
+    }, { transaction: t });
+
+    if (await tenebra.isStakingEnabled()) {
+      staking.setValidator("");
+    }
+
     // Do all the fun stuff in parallel
     // eslint-disable-next-line no-shadow
     const [block] = await Promise.all([
@@ -153,8 +165,9 @@ Blocks.submit = async function(req, hash, address, nonce, useragent, origin) {
       // Create the transaction
       tx.createTransaction(address, null, value, null, null, t, useragent, origin),
 
-      // Decrement all unpaid name counters
-      unpaidNames.map(name => name.decrement({ unpaid: 1 }, { transaction: t }))
+      // Decrement all unpaid name & penalty counters
+      unpaidNames.map(name => name.decrement({ unpaid: 1 }, { transaction: t })),
+      unpaidPenalties.map(address => address.decrement({ penalty: 1 }, { transaction: t }))
     ]);
 
     // See if the address already exists before depositing Tenebra to it

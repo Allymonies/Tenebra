@@ -19,12 +19,13 @@
  * For more project information, see <https://github.com/allymonies/tenebra>.
  */
 
+ const { getRedis }  = require("./redis");
 const utils        = require("./utils.js");
+const constants    = require("./constants.js");
 const schemas      = require("./schemas.js");
 const websockets   = require("./websockets.js");
-const addresses    = require("./addresses.js");
+const transactions = require("./../transactions.js");
 const { Op }       = require("sequelize");
-const escapeRegExp = require("lodash.escaperegexp");
 
 const promClient = require("prom-client");
 const promStakesCounter = new promClient.Counter({
@@ -57,10 +58,51 @@ Staking.getStakes = function (limit, offset, asc, includeInactive) {
   });
 };
 
+Staking.getStakeWeights = function () {
+  return schemas.address.findAndCountAll({
+    where: { stake: EXCLUDE_NO_STAKE, stake_active: EXCLUDE_INACTIVE }
+  });
+};
+
 Staking.getStake = function (address) {
   return schemas.address.findOne({
     where: { address: {[Op.eq]: address}}
   });
+};
+
+Staking.penalize = async function(staker, dbTx) {
+
+  // Do these in parallel:
+  const [,, newTransaction] = await Promise.all([
+    // Decrease the staker's stake
+    staker.decrement({ stake: Math.min(constants.validatorPenalty, staker.stake) }, { transaction: dbTx }),
+
+    // Set their stake to inactive so they don't lose more
+    staker.update({"stake_active": false}),
+
+    // Create the transaction
+    transactions.createTransaction("penalty", staker.address, amount, null, null, dbTx, null, null, null, null),
+  ]);
+
+  return newTransaction;
+
+};
+
+Staking.getValidator = async function (work) {
+  return await getRedis().get("validator");
+};
+
+Staking.setValidator = async function (validator) {
+  websockets.broadcastEvent({
+    type: "event",
+    event: "validator",
+    validator: validator
+  });
+  await getRedis().set("validator", validator);
+};
+
+Staking.getUnpaidPenaltyCount = function(t) {
+  return schemas.address.count({where: {penalty: {[Op.gt]: 0}}}, { transaction: t });
 };
 
 

@@ -84,6 +84,7 @@
       "MakeTransaction",
       "StakingGroup",
       "GetStakes",
+      "GetValidator",
       "GetStake",
       "NameGroup",
       "GetName",

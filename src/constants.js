@@ -20,12 +20,13 @@
  */
 
 module.exports = {
-  defaultBlockValue: 1,
+  defaultBlockValue: 10,
   walletVersion: 16,
   nonceMaxSize: 24,
   nameCost: 500,
   minWork: 100,
   maxWork: 100000,
   workFactor: 0.025,
-  secondsPerBlock: 60
+  secondsPerBlock: 60,
+  validatorPenalty: 100
 };

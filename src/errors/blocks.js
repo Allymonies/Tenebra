@@ -57,3 +57,12 @@ errors.ErrorMiningDisabled = function(message) {
 };
 
 util.inherits(errors.ErrorMiningDisabled, errors.TenebraError);
+
+errors.UnselectedValidator = function(message) {
+  errors.TenebraError.call(this);
+  this.message = message;
+  this.statusCode = 403;
+  this.errorString = "unselected_validator";
+};
+
+util.inherits(errors.UnselectedValidator, errors.TenebraError);
