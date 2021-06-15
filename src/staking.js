@@ -35,8 +35,7 @@ const promStakesCounter = new promClient.Counter({
 
 // Query operator to exclude stakes that aren't active
 const EXCLUDE_INACTIVE = {
-  [Op.eq]: 1, // Active field is true
-  [Op.is]: null // Or active field is not set
+  [Op.ne]: 0 // Active field is not false
 };
 
 const EXCLUDE_NO_STAKE = {
