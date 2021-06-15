@@ -152,6 +152,14 @@ Staking.getUnpaidPenaltyCount = function(t) {
   return schemas.address.count({where: {penalty: {[Op.gt]: 0}}}, { transaction: t });
 };
 
+Staking.getDetailedUnpaidPenalties = function() {
+  return database.getSequelize().query(`
+    SELECT COUNT(*) AS \`count\`, \`penalty\` FROM \`addresses\`
+    GROUP BY \`penalty\`
+    ORDER BY \`penalty\` ASC;
+  `, { type: QueryTypes.SELECT });
+};
+
 Staking.getPenalties = function (limit, offset, asc) {
   return schemas.address.findAndCountAll({
     order: [["penalty", asc ? "ASC" : "DESC"]],
