@@ -238,5 +238,85 @@ module.exports = function(app) {
     }
   });
 
+    /**
+	 * @api {post} /staking/ Deposit a stake
+	 * @apiName DepositStake
+	 * @apiGroup StakingGroup
+	 * @apiVersion 2.0.0
+	 *
+	 * @apiParam (BodyParameter) {String} privatekey The privatekey of your address.
+	 * @apiParam (BodyParameter) {Number} amount The amount to deposit to your stake.
+	 *
+	 * @apiUse Stake
+	 *
+	 * @apiSuccessExample {json} Success
+	 * {
+   *     "ok": true,
+   *     "stake": {
+	 *         "owner": "tttttttttt",
+   *         "amount": 2500,
+   *         "active": true
+	 *     }
+   * }
+	 *
+	 * @apiErrorExample {json} Insufficient Funds
+	 * {
+     *     "ok": false,
+     *     "error": "insufficient_funds"
+     * }
+	 */
+     app.post("/staking", async function(req, res) {
+      try {
+        const { userAgent, origin } = utils.getReqDetails(req);
+        const address = await stakingController.deposit(req, req.body.privatekey, req.body.amount, userAgent, origin);
+        res.json({
+          ok: true,
+          stake: stakingController.stakeToJSON(address)
+        });
+      } catch (error) {
+        utils.sendErrorToRes(req, res, error);
+      }
+    });
+
+    /**
+	 * @api {post} /staking/withdraw Withdraw a stake
+	 * @apiName WithdrawStake
+	 * @apiGroup StakingGroup
+	 * @apiVersion 2.0.0
+	 *
+	 * @apiParam (BodyParameter) {String} privatekey The privatekey of your address.
+	 * @apiParam (BodyParameter) {Number} amount The amount to withdraw from your stake.
+	 *
+	 * @apiUse Stake
+	 *
+	 * @apiSuccessExample {json} Success
+	 * {
+   *     "ok": true,
+   *     "stake": {
+	 *         "owner": "tttttttttt",
+   *         "amount": 0,
+   *         "active": false
+	 *     }
+   * }
+	 *
+	 * @apiErrorExample {json} Insufficient Funds
+	 * {
+     *     "ok": false,
+     *     "error": "insufficient_funds"
+     * }
+	 */
+     app.post("/staking/withdraw", async function(req, res) {
+      try {
+        const { userAgent, origin } = utils.getReqDetails(req);
+        const address = await stakingController.withdraw(req, req.body.privatekey, req.body.amount, userAgent, origin);
+        res.json({
+          ok: true,
+          stake: stakingController.stakeToJSON(address)
+        });
+      } catch (error) {
+        utils.sendErrorToRes(req, res, error);
+      }
+    });
+
   return app;
 };

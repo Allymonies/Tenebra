@@ -73,18 +73,59 @@ Staking.getStake = function (address) {
 Staking.penalize = async function(staker, dbTx) {
 
   // Do these in parallel:
+  const amount = Math.min(constants.validatorPenalty, staker.stake)
   const [,, newTransaction] = await Promise.all([
     // Decrease the staker's stake
-    staker.decrement({ stake: Math.min(constants.validatorPenalty, staker.stake) }, { transaction: dbTx }),
+    staker.decrement({ stake: amount }, { transaction: dbTx }),
 
     // Set their stake to inactive so they don't lose more
     staker.update({"stake_active": false}),
 
     // Create the transaction
-    transactions.createTransaction("penalty", staker.address, amount, null, null, dbTx, null, null, null, null),
+    //transactions.createTransaction("penalty", staker.address, amount, null, null, dbTx, null, null, null, null),
   ]);
 
   return newTransaction;
+
+};
+
+Staking.deposit = async function(staker, amount, dbTx) {
+
+  // Do these in parallel:
+  const [,, newTransaction] = await Promise.all([
+    // Decrease the staker's balance
+    staker.decrement({ balance: amount }, { transaction: dbTx }),
+    // Increase their stake
+    staker.increment(({ stake: amount}, { transaction: dbTx })),
+
+    // Set their stake to active
+    staker.update({"stake_active": true}),
+
+    // Create the transaction
+    transactions.createTransaction("staking", staker.address, amount, null, null, dbTx, null, null, null, null),
+  ]);
+
+  return staker;
+
+};
+
+Staking.withdraw = async function(staker, amount, dbTx) {
+
+  // Do these in parallel:
+  const [,, newTransaction] = await Promise.all([
+    // Increase the staker's balance
+    staker.increment({ balance: amount }, { transaction: dbTx }),
+    // Decrease their stake
+    staker.decrement(({ stake: amount}, { transaction: dbTx })),
+
+    // Set their stake to active if they still have a stake remaining
+    staker.update({"stake_active": staker.stake > 0}),
+
+    // Create the transaction
+    transactions.createTransaction(staker.address, "staking", amount, null, null, dbTx, null, null, null, null),
+  ]);
+
+  return staker;
 
 };
 
