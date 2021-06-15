@@ -158,7 +158,7 @@ Tenebra.selectValidator = async function() {
   let total = 0;
   for (let i = 0; i < stakes.length; i++) {
     const stake = staking.stakeToJSON(stakes[i]);
-    total += stake.total;
+    total += stake.stake;
     stakeWeights.append({address: stake.address, sum: total});
   }
 
