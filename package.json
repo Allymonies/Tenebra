@@ -86,6 +86,8 @@
       "GetStakes",
       "GetValidator",
       "GetStake",
+      "DepositStake",
+      "WithdrawStake",
       "NameGroup",
       "GetName",
       "GetNames",

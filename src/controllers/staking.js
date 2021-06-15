@@ -56,4 +56,44 @@ StakingController.stakeToJSON = function(stake) {
   return staking.stakeToJSON(stake);
 };
 
+StakingController.deposit = async function(req, privatekey, amount, userAgent, origin) {
+  // Input validation
+  if (!privatekey) throw new errors.ErrorMissingParameter("privatekey");
+  if (!amount) throw new errors.ErrorMissingParameter("amount");
+
+  if (isNaN(amount) || amount < 1) throw new errors.ErrorInvalidParameter("amount");
+
+  const from = tenebra.makeV2Address(privatekey);
+  amount = parseInt(amount);
+
+  // Address auth validation
+  const { authed, address: sender } = await addresses.verify(req, from, privatekey);
+  if (!authed) throw new errors.ErrorAuthFailed();
+
+  // Reject insufficient funds
+  if (!sender || sender.balance < amount) throw new errors.ErrorInsufficientFunds();
+  
+  return staking.deposit(sender, amount);
+};
+
+StakingController.withdraw = async function(req, privatekey, amount, userAgent, origin) {
+  // Input validation
+  if (!privatekey) throw new errors.ErrorMissingParameter("privatekey");
+  if (!amount) throw new errors.ErrorMissingParameter("amount");
+
+  if (isNaN(amount) || amount < 1) throw new errors.ErrorInvalidParameter("amount");
+
+  const from = tenebra.makeV2Address(privatekey);
+  amount = parseInt(amount);
+
+  // Address auth validation
+  const { authed, address: sender } = await addresses.verify(req, from, privatekey);
+  if (!authed) throw new errors.ErrorAuthFailed();
+
+  // Reject insufficient funds
+  if (!sender || sender.stake < amount) throw new errors.ErrorInsufficientFunds();
+  
+  return staking.withdraw(sender, amount);
+};
+
 module.exports = StakingController;
