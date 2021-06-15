@@ -99,7 +99,7 @@ Tenebra.init = async function () {
   if (!await r.exists("validator")) {
     const defaultValidator = "";
     console.log(chalk`{yellow.bold [Tenebra]} Warning: Validator was not yet set in Redis. It will be initialised to: {green ${defaultValidator}}`);
-    await Tenebra.setValidator(defaultValidator);
+    await staking.setValidator(defaultValidator);
   }
 
   // Update the work over time every minute
