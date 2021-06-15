@@ -49,7 +49,7 @@ module.exports = function(app) {
    *            transaction, if it was sent to a name.
 	 * @apiSuccess {String} [transaction.sent_name] The name this transaction was sent to, if it was sent to a name.
 	 * @apiSuccess {String} transaction.type The type of this transaction. May be `mined`, `transfer`, `name_purchase`,
-   *            `name_a_record`, or `name_transfer`.
+   *            `name_a_record`, `name_transfer`, or `staking`.
 	 */
 
   /**
@@ -70,7 +70,7 @@ module.exports = function(app) {
    *            transaction, if it was sent to a name.
 	 * @apiSuccess {String} [transactions.sent_name] The name this transaction was sent to, if it was sent to a name.
 	 * @apiSuccess {String} transactions.type The type of this transaction. May be `mined`, `transfer`, `name_purchase`,
-   *            `name_a_record`, or `name_transfer`.
+   *            `name_a_record`, `name_transfer`, or `staking`.
 	 */
 
   app.get("/", async function(req, res, next) {

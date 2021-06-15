@@ -238,6 +238,7 @@ Transactions.pushTransaction = async function(sender, recipientAddress, amount, 
 Transactions.identifyTransactionType = function(transaction) {
   if (!transaction) return "unknown";
   if (!transaction.from) return "mined";
+  if (transaction.from === "staking" || transaction.to === "staking") return "staking";
 
   if (transaction.name) {
     if (transaction.to === "name") return "name_purchase";
