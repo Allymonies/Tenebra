@@ -21,6 +21,7 @@
 
 const tenebra = require("./../tenebra.js");
 const blocks = require("./../blocks.js");
+const staking = require("./../staking.js");
 const names = require("./../names.js");
 
 module.exports = function(app) {
@@ -112,6 +113,7 @@ module.exports = function(app) {
   app.get("/work/detailed", async function (req, res) {
     const lastBlock = await blocks.getLastBlock();
     const unpaidNames = await names.getUnpaidNameCount();
+    const unpaidPenalties = await staking.getUnpaidPenaltyCount();
     const baseValue = blocks.getBaseBlockValue(lastBlock.id);
 
     const detailedUnpaid = await names.getDetailedUnpaid();
@@ -119,19 +121,31 @@ module.exports = function(app) {
     const mostUnpaid = [...(detailedUnpaid.filter(u => u.unpaid > 0))];
     mostUnpaid.sort((a, b) => b.unpaid - a.unpaid);
 
+    const detailedUnpaidPenalties = await staking.getDetailedUnpaidPenalties();
+    const nextUnpaidPenalty = detailedUnpaidPenalties.find(u => u.penalty > 0);
+    const mostUnpaidPenalty = [...(detailedUnpaidPenalties.filter(u => u.penalty > 0))];
+    mostUnpaidPenalty.sort((a, b) => b.penalty - a.penalty);
+
     res.json({
       ok: true,
 
       work: await tenebra.getWork(),
       unpaid: unpaidNames,
+      unpaidPenalties: unpaidPenalties,
 
       base_value: baseValue,
-      block_value: baseValue + unpaidNames,
+      block_value: baseValue + unpaidNames + unpaidPenalties,
 
       decrease: {
         value: nextUnpaid ? nextUnpaid.count : 0,
         blocks: nextUnpaid ? nextUnpaid.unpaid : 0,
         reset: mostUnpaid && mostUnpaid.length > 0 ? mostUnpaid[0].unpaid : 0
+      },
+
+      decreasePenalty: {
+        value: nextUnpaidPenalty ? nextUnpaidPenalty.count : 0,
+        blocks: nextUnpaidPenalty ? nextUnpaidPenalty.penalty : 0,
+        reset: mostUnpaidPenalty && mostUnpaidPenalty.length > 0 ? mostUnpaid[0].penalty : 0
       }
     });
   });
