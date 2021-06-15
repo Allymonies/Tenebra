@@ -33,6 +33,7 @@ const { getRedis } = require("./redis.js");
 const { cleanAuthLog, getAddress } = require("./addresses.js");
 const staking = require("./staking.js");
 const cron = require("node-cron");
+const e = require("express");
 
 const addressRegex = /^(?:t[a-z0-9]{9}|[a-f0-9]{10})$/;
 const addressRegexV2 = /^t[a-z0-9]{9}$/;
@@ -162,14 +163,19 @@ Tenebra.selectValidator = async function() {
     stakeWeights.push({address: stake.owner, sum: total});
   }
 
-  const selectedSum = Math.random() * total;
-  for(let i = 0; i < stakeWeights.length; i++) {
-    const weight = stakeWeights[i];
-    if (selectedSum < weight.sum) {
-      await staking.setValidator(weight.address);
-      break;
+  if (total > 0) {
+    const selectedSum = Math.random() * total;
+    for(let i = 0; i < stakeWeights.length; i++) {
+      const weight = stakeWeights[i];
+      if (selectedSum < weight.sum) {
+        await staking.setValidator(weight.address);
+        break;
+      }
     }
+  } else {
+    await staking.setValidator("");
   }
+  
   
 };
 
