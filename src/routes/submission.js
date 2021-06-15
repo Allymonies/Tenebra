@@ -142,7 +142,7 @@ module.exports = function(app) {
         block: blocksController.blockToJSON(result.block)
       });
     } catch (error) {
-      if (error instanceof errors.ErrorSolutionIncorrect || error instanceof errors.ErrorSolutionDuplicate) {
+      if (error instanceof errors.ErrorSolutionIncorrect || error instanceof errors.ErrorSolutionDuplicate || error instanceof errors.UnselectedValidator) {
         res.json({
           ok: true,
           success: false,
