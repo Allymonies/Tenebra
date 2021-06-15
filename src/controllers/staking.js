@@ -26,7 +26,7 @@ const errors       = require("./../errors/errors.js");
 
 function StakingController() {}
 
-StakingController.getStakes = function (limit, offset, asc, includeInactive) {
+StakingController.getStakes = function (limit, offset, asc, includeMined) {
   return new Promise(function(resolve, reject) {
     if ((limit && isNaN(limit)) || (limit && limit <= 0)) {
       return reject(new errors.ErrorInvalidParameter("limit"));
@@ -37,6 +37,12 @@ StakingController.getStakes = function (limit, offset, asc, includeInactive) {
     }
 
     staking.getStakes(limit, offset, asc, includeMined).then(resolve).catch(reject);
+  });
+};
+
+StakingController.getStake = function (address) {
+  return new Promise(function(resolve, reject) {
+    staking.getStake(address).then(resolve).catch(reject);
   });
 };
 

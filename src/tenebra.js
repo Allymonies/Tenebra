@@ -30,7 +30,8 @@ const schemas = require("./schemas.js");
 const chalk = require("chalk");
 const { getRedis } = require("./redis.js");
 
-const { cleanAuthLog } = require("./addresses.js");
+const { cleanAuthLog, getAddress } = require("./addresses.js");
+const staking = require("./staking.js");
 const cron = require("node-cron");
 
 const addressRegex = /^(?:t[a-z0-9]{9}|[a-f0-9]{10})$/;
@@ -58,14 +59,27 @@ Tenebra.init = async function () {
   // Check if mining is enabled
   const r = getRedis();
   if (process.env.MINING_ENABLED === "true") await r.set("mining-enabled", "true");
+  if (process.env.STAKING_ENABLED === "true") await r.set("staking-enabled", "true");
+  if (!await r.exists("staking-enabled")) {
+    console.log(chalk`{yellow.bold [Tenebra]} Note: Initialised with staking disabled.`);
+    await r.set("staking-enabled", "false");
+  }
   if (!await r.exists("mining-enabled")) {
     console.log(chalk`{yellow.bold [Tenebra]} Note: Initialised with mining disabled.`);
     await r.set("mining-enabled", "false");
-  } else {
-    const miningEnabled = await Tenebra.isMiningEnabled();
-    if (miningEnabled) console.log(chalk`{green.bold [Tenebra]} Mining is enabled.`);
-    else console.log(chalk`{red.bold [Tenebra]} Mining is disabled!`);
   }
+  const miningEnabled = await Tenebra.isMiningEnabled();
+  let stakingEnabled = await Tenebra.isStakingEnabled();
+  if (miningEnabled)
+  { 
+    if (stakingEnabled) {
+      stakingEnabled = false;
+      await r.set("staking-enabled", "false");
+    }
+    console.log(chalk`{green.bold [Tenebra]} Mining is enabled.`);
+  }
+  else if (stakingEnabled) console.log(chalk`{green.bold [Tenebra]} Staking is enabled.`);
+  else console.log(chalk`{red.bold [Tenebra]} No mining method enabled!`);
 
   if (process.env.GEN_GENESIS === "true") await Tenebra.genGenesis();
 
@@ -82,11 +96,22 @@ Tenebra.init = async function () {
   }
   console.log(chalk`{bold [Tenebra]} Current work: {green ${await Tenebra.getWork()}}`);
 
+  if (!await r.exists("validator")) {
+    const defaultValidator = "";
+    console.log(chalk`{yellow.bold [Tenebra]} Warning: Validator was not yet set in Redis. It will be initialised to: {green ${defaultValidator}}`);
+    await Tenebra.setValidator(defaultValidator);
+  }
+
   // Update the work over time every minute
   Tenebra.workOverTimeInterval = setInterval(async function () {
     await r.lpush("work-over-time", await Tenebra.getWork());
     await r.ltrim("work-over-time", 0, 1440);
   }, 60 * 1000);
+
+  if (stakingEnabled) {
+    Tenebra.validatorSelectionInterval = setInterval(Tenebra.selectValidator, Tenebra.getSecondsPerBlock * 1000);
+  }
+  
 
   // Start the hourly auth log cleaner, and also run it immediately
   cron.schedule("0 0 * * * *", () => cleanAuthLog().catch(console.error));
@@ -108,12 +133,43 @@ Tenebra.genGenesis = async function () {
 
     await r.set("genesis-genned", "true");
   }
-}
+};
 
 Tenebra.isMiningEnabled = async () => (await getRedis().get("mining-enabled")) === "true";
 
+Tenebra.isStakingEnabled = async () => (await getRedis().get("staking-enabled")) === "true";
+
 Tenebra.getWork = async function () {
   return parseInt(await getRedis().get("work"));
+};
+
+Tenebra.selectValidator = async function() {
+  const prevValidator = await staking.getValidator();
+  if (prevValidator && prevValidator != "" ) {
+    //Need to punish previous validator for not validating.
+    const prevValidatorAddress = await getAddress(prevValidator);
+    if (prevValidatorAddress) {
+      await staking.penalize(prevValidatorAddress);
+    }
+  }
+
+  const stakes = await staking.getStakeWeights();
+  const stakeWeights = [];
+  let total = 0;
+  for (let i = 0; i < stakes.length; i++) {
+    const stake = staking.stakeToJSON(stakes[i]);
+    total += stake.total;
+    stakeWeights.append({address: stake.address, sum: total});
+  }
+
+  const selectedSum = Math.random() * total;
+  stakeWeights.forEach(weight => {
+    if (selectedSum < weight.sum) {
+      staking.setValidator(weight.address);
+      break;
+    }
+  })
+  
 };
 
 Tenebra.getWorkOverTime = async function () {

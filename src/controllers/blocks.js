@@ -94,7 +94,9 @@ BlocksController.blockToJSON = function(block) {
 };
 
 BlocksController.submitBlock = async function(req, address, rawNonce, userAgent, origin) {
-  if (!await tenebra.isMiningEnabled()) throw new errors.ErrorMiningDisabled();
+  const miningEnabled = await tenebra.isMiningEnabled();
+  const stakingEnabled = await tenebra.isStakingEnabled();
+  if (!miningEnabled && !stakingEnabled) throw new errors.ErrorMiningDisabled();
 
   if (!address) throw new errors.ErrorMissingParameter("address");
   if (!tenebra.isValidTenebraAddress(address, true))
@@ -111,7 +113,7 @@ BlocksController.submitBlock = async function(req, address, rawNonce, userAgent,
   const difficulty = await tenebra.getWork();
   const hash = utils.sha256(address, last, nonce);
 
-  if (parseInt(hash.substr(0, 12), 16) <= difficulty || tenebra.freeNonceSubmission) {
+  if ((miningEnabled && (parseInt(hash.substr(0, 12), 16) <= difficulty || tenebra.freeNonceSubmission)) || (stakingEnabled && address == tenebra.getValidator())) {
     try {
       const block = await blocks.submit(req, hash, address, nonce, userAgent, origin);
       return block;
@@ -123,8 +125,10 @@ BlocksController.submitBlock = async function(req, address, rawNonce, userAgent,
       console.error(err);
       throw err;
     }
-  } else {
+  } else if (miningEnabled && parseInt(hash.substr(0, 12), 16) > difficulty) {
     throw new errors.ErrorSolutionIncorrect();
+  } else {
+    throw new errors.UnselectedValidator();
   }
 };
 
