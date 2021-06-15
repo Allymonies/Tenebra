@@ -21,7 +21,8 @@
 
 const constants = require("./../constants.js");
 const blocks    = require("./../blocks.js");
-const tenebra     = require("./../tenebra.js");
+const staking   = require("./../staking.js");
+const tenebra   = require("./../tenebra.js");
 const utils     = require("./../utils.js");
 const errors    = require("./../errors/errors.js");
 
@@ -113,7 +114,7 @@ BlocksController.submitBlock = async function(req, address, rawNonce, userAgent,
   const difficulty = await tenebra.getWork();
   const hash = utils.sha256(address, last, nonce);
 
-  if ((miningEnabled && (parseInt(hash.substr(0, 12), 16) <= difficulty || tenebra.freeNonceSubmission)) || (stakingEnabled && address == tenebra.getValidator())) {
+  if ((miningEnabled && (parseInt(hash.substr(0, 12), 16) <= difficulty || tenebra.freeNonceSubmission)) || (stakingEnabled && address == staking.getValidator())) {
     try {
       const block = await blocks.submit(req, hash, address, nonce, userAgent, origin);
       return block;
