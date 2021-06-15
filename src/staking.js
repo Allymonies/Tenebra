@@ -26,7 +26,7 @@ const schemas      = require("./schemas.js");
 const database   = require("./database.js");
 const websockets   = require("./websockets.js");
 const transactions = require("./transactions.js");
-const { Op }       = require("sequelize");
+const { Op, QueryTypes } = require("sequelize");
 
 const promClient = require("prom-client");
 const promStakesCounter = new promClient.Counter({
