@@ -46,6 +46,12 @@ StakingController.getStake = function (address) {
   });
 };
 
+StakingController.getValidator = function () {
+  return new Promise(function(resolve, reject) {
+    staking.getValidator().then(resolve).catch(reject);
+  });
+};
+
 StakingController.stakeToJSON = function(stake) {
   return staking.stakeToJSON(stake);
 };
