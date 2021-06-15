@@ -43,13 +43,16 @@ const Address = database.getSequelize().define("address", {
   locked: Sequelize.BOOLEAN,
   stake: {
     type: Sequelize.INTEGER.UNSIGNED,
-    allowNull: true
+    defaultValue: 0
   },
   stake_active: {
     type: Sequelize.BOOLEAN,
     defaultValue: 1
   },
-  penalty: Sequelize.INTEGER.UNSIGNED,
+  penalty: {
+    type: Sequelize.INTEGER.UNSIGNED,
+    defaultValue: 0
+  }
 }, {
   timestamps: false
 });
