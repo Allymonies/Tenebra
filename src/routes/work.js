@@ -145,7 +145,7 @@ module.exports = function(app) {
       decreasePenalty: {
         value: nextUnpaidPenalty ? nextUnpaidPenalty.count : 0,
         blocks: nextUnpaidPenalty ? nextUnpaidPenalty.penalty : 0,
-        reset: mostUnpaidPenalty && mostUnpaidPenalty.length > 0 ? mostUnpaid[0].penalty : 0
+        reset: mostUnpaidPenalty && mostUnpaidPenalty.length > 0 ? mostUnpaidPenalty[0].penalty : 0
       }
     });
   });
