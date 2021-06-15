@@ -48,69 +48,6 @@ module.exports = function(app) {
      * @apiSuccess {Boolean} stakes.active Whether the stake is active, i.e. has not failed to mint it's last assigned block.
 	 */
 
-//Only nerds use query params
-/*  app.get("/", async function(req, res, next) {
-    if (typeof req.query.recenttx !== "undefined") {
-      tx.getRecentTransactions().then(function(transactions) {
-        let out = "";
-
-        transactions.forEach(function (transaction) {
-          out += moment(transaction.time).format("MMM DD HH:mm");
-
-          out += transaction.from;
-          out += transaction.to;
-
-          out += utils.padDigits(Math.abs(transaction.value), 8);
-        });
-
-        res.send(out);
-      });
-
-      return;
-    }
-
-    if (typeof req.query.pushtx !== "undefined") {
-      return res.send("v1 transactions disabled. Contact Tenebra team");
-    }
-
-    if (typeof req.query.pushtx2 !== "undefined") {
-      try {
-        const { userAgent, origin } = utils.getReqDetails(req);
-
-        const privatekey = req.query.pkey;
-        const to = req.query.q;
-        const amount = req.query.amt;
-        const metadata = req.query.com;
-
-        await txController.makeTransaction(req, privatekey, to, amount, metadata, userAgent, origin);
-        res.send("Success");
-      } catch (err) {
-        // Convert v2 errors to legacy API errors
-        if (err.errorString === "auth_failed")
-          return res.send("Access denied");
-        if (err.errorString === "insufficient_funds")
-          return res.send("Error1"); // "Insufficient funds available"
-        if (err.parameter === "amount")
-          return res.send("Error2"); // "Not enough TST in transaction"
-        if (err.parameter === "to")
-          return res.send("Error4"); // "Invalid recipient address"
-        if (err.parameter === "privatekey")
-          return res.send("Missing privatekey");
-        if (err.parameter === "metadata")
-          return res.send("Invalid metadata");
-        if (err.errorString === "name_not_found")
-          return res.send("Name not found");
-
-        console.error(err);
-        return res.send("Unknown error");
-      }
-
-      return;
-    }
-
-    next();
-  });*/
-
   /**
 	 * @api {get} /staking List all stakes
 	 * @apiName GetStakes
@@ -154,7 +91,7 @@ module.exports = function(app) {
       res.json({
         ok: true,
         count: out.length,
-        total: transactions.count,
+        total: stakes.count,
         stakes: out
       });
     }).catch(function(error) {
