@@ -152,6 +152,14 @@ Staking.getUnpaidPenaltyCount = function(t) {
   return schemas.address.count({where: {penalty: {[Op.gt]: 0}}}, { transaction: t });
 };
 
+Staking.getPenalties = function (limit, offset, asc) {
+  return schemas.address.findAndCountAll({
+    order: [["penalty", asc ? "ASC" : "DESC"]],
+    limit: utils.sanitiseLimit(limit),
+    offset: utils.sanitiseOffset(offset),
+    where: {penalty: {[Op.gt]: 0}}
+  });
+};
 
 Staking.stakeToJSON = function(stake) {
   return {
@@ -160,5 +168,13 @@ Staking.stakeToJSON = function(stake) {
     active: stake.stake_active == 1
   };
 };
+
+Staking.penaltyToJSON = function(penalty) {
+  return {
+    address: penalty.address,
+    amount: penalty.penalty
+  };
+};
+
 
 module.exports = Staking;

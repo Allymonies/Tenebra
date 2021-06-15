@@ -88,6 +88,8 @@
       "GetStake",
       "DepositStake",
       "WithdrawStake",
+      "GetPenaltyBonus",
+      "GetPenalties",
       "NameGroup",
       "GetName",
       "GetNames",

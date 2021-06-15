@@ -56,8 +56,30 @@ StakingController.getValidator = function () {
   });
 };
 
+StakingController.getPenalty = async function () {
+  return await staking.getUnpaidPenaltyCount();
+};
+
+StakingController.getPenalties = function (limit, offset, asc) {
+  return new Promise(function(resolve, reject) {
+    if ((limit && isNaN(limit)) || (limit && limit <= 0)) {
+      return reject(new errors.ErrorInvalidParameter("limit"));
+    }
+
+    if ((offset && isNaN(offset)) || (offset && offset < 0)) {
+      return reject(new errors.ErrorInvalidParameter("offset"));
+    }
+
+    staking.getPenalties(limit, offset, asc).then(resolve).catch(reject);
+  });
+};
+
 StakingController.stakeToJSON = function(stake) {
   return staking.stakeToJSON(stake);
+};
+
+StakingController.penaltyToJSON = function(penalty) {
+  return staking.penaltyToJSON(penalty);
 };
 
 StakingController.deposit = async function(req, privatekey, amount, userAgent, origin) {
