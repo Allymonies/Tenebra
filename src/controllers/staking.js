@@ -40,7 +40,7 @@ StakingController.getStakes = function (limit, offset, asc, includeMined) {
   });
 };
 
-StakingController.getStake = function (address) {
+StakingController.getStake = async function (address) {
   if (!tenebra.isValidTenebraAddress(address))
     throw new errors.ErrorInvalidParameter("address");
 
