@@ -74,7 +74,7 @@ function WebsocketsManager() {
   this.messageHandlers = [];
   this.pendingTokens = [];
 
-  this.validSubscriptions = ["blocks", "ownBlocks", "transactions", "ownTransactions", "names", "ownNames", "motd"];
+  this.validSubscriptions = ["blocks", "ownBlocks", "transactions", "ownTransactions", "names", "ownNames", "motd", "validators", "ownValidators"];
 }
 
 function Websocket(req, socket, token, auth, subs, privatekey) {
@@ -236,6 +236,13 @@ function subscriptionCheck(message) {
       || ws.subs.includes("names");
   }
 
+  case "validator": {
+    const { validator } = message.validator;
+    return ws => // If the ws is subscribed to 'ownValidators' or 'validator'
+      (!ws.isGuest && ws.auth === validator && ws.subs.includes("ownValidators")) 
+      || ws.subs.includes("validator");
+  }
+
   default: 
     throw new Error("Unknown event type " + message.event);
   }
@@ -330,6 +337,11 @@ WebsocketsManager.prototype.startIPC = async function() {
     case "name":
       if (!body.name) throw new errors.ErrorMissingParameter("name");
       eventData = { name: body.name };
+      break;
+
+    case "validator":
+      if (!body.validator) throw new errors.ErrorMissingParameter("validator");
+      eventData = { validator: body.validator };
       break;
 
     default:
