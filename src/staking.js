@@ -38,6 +38,10 @@ const EXCLUDE_INACTIVE = {
   [Op.is]: null // Or active field is not set
 };
 
+const EXCLUDE_NO_STAKE = {
+  [Op.gt]: 0 //Stake is more than 0
+};
+
 function Staking() {}
 
 /*Transactions.getTransaction = function(id) {
@@ -45,20 +49,20 @@ function Staking() {}
 };*/
 
 Staking.getStakes = function (limit, offset, asc, includeInactive) {
-  return schemas.stake.findAndCountAll({
-    order: [["id", asc ? "ASC" : "DESC"]],
+  return schemas.address.findAndCountAll({
+    order: [["stake", asc ? "ASC" : "DESC"]],
     limit: utils.sanitiseLimit(limit),
     offset: utils.sanitiseOffset(offset),
-    where: includeInactive ? {} : { from: EXCLUDE_INACTIVE }
+    where: includeInactive ? {stake: EXCLUDE_NO_STAKE} : { stake: EXCLUDE_NO_STAKE, stake_active: EXCLUDE_INACTIVE }
   });
 };
 
 
 Staking.stakeToJSON = function(stake) {
   return {
-    owner: stake.owner,
-    amount: stake.amount,
-    active: stake.active == 1
+    owner: stake.address,
+    stake: stake.stake,
+    active: stake.stake_active == 1
   };
 };
 
