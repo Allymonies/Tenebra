@@ -77,6 +77,7 @@ Staking.penalize = async function(staker, dbTx) {
   const [,, newTransaction] = await Promise.all([
     // Decrease the staker's stake
     staker.decrement({ stake: amount }, { transaction: dbTx }),
+    staker.increment({ penalty: amount }, { transaction: dbTx }),
 
     // Set their stake to inactive so they don't lose more
     staker.update({"stake_active": false}),
@@ -96,7 +97,7 @@ Staking.deposit = async function(staker, amount, dbTx) {
     // Decrease the staker's balance
     staker.decrement({ balance: amount }, { transaction: dbTx }),
     // Increase their stake
-    staker.increment(({ stake: amount}, { transaction: dbTx })),
+    staker.increment({ stake: amount}, { transaction: dbTx }),
 
     // Set their stake to active
     staker.update({"stake_active": true}),
@@ -116,7 +117,7 @@ Staking.withdraw = async function(staker, amount, dbTx) {
     // Increase the staker's balance
     staker.increment({ balance: amount }, { transaction: dbTx }),
     // Decrease their stake
-    staker.decrement(({ stake: amount}, { transaction: dbTx })),
+    staker.decrement({ stake: amount}, { transaction: dbTx }),
 
     // Set their stake to active if they still have a stake remaining
     staker.update({"stake_active": staker.stake > 0}),
