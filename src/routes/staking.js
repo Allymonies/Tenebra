@@ -39,13 +39,29 @@ module.exports = function(app) {
      * @apiSuccess {Boolean} stake.active Whether the stake is active, i.e. has not failed to mint it's last assigned block.
 	 */
      
-     /**
+  /**
 	 * @apiDefine Stakes
 	 *
 	 * @apiSuccess {Object[]} stakes
 	 * @apiSuccess {String} stakes.owner The owner of this stake.
 	 * @apiSuccess {Number} stakes.amount The amount of Tenebra being staked.
-     * @apiSuccess {Boolean} stakes.active Whether the stake is active, i.e. has not failed to mint it's last assigned block.
+  * @apiSuccess {Boolean} stakes.active Whether the stake is active, i.e. has not failed to mint it's last assigned block.
+	 */
+
+  /**
+	 * @apiDefine Penalty
+	 *
+	 * @apiSuccess {Object} penalty
+	 * @apiSuccess {String} penalty.address The address responsible for the penalty.
+	 * @apiSuccess {Number} penalty.amount The amount of penalty remaining to be distributed.
+	 */
+
+  /**
+	 * @apiDefine Penalties
+	 *
+	 * @apiSuccess {Object[]} penalties
+	 * @apiSuccess {String} penalties.address The address responsible for the penalty.
+	 * @apiSuccess {Number} penalties.amount The amount of penalty remaining to be distributed.
 	 */
 
   /**
@@ -154,6 +170,54 @@ module.exports = function(app) {
         utils.sendErrorToRes(req, res, err);
       }
     });
+
+  /**
+	 * @api {get} /staking/penalties List active staking penalties
+	 * @apiName GetPenalties
+	 * @apiGroup StakingGroup
+	 * @apiVersion 2.15.0
+	 *
+	 * @apiParam (QueryParameter) {Number} [limit=50] The maximum amount of results to return.
+	 * @apiParam (QueryParameter) {Number} [offset=0] The amount to offset the results.
+	 *
+	 * @apiSuccess {Number} count The count of results.
+	 * @apiSuccess {Number} total The total amount of penalties.
+	 * @apiUse Penalties
+	 *
+	 * @apiSuccessExample {json} Success
+	 * {
+     *     "ok": true,
+     *     "count": 50,
+     *     "total": 100,
+     *     "penalties": [
+     *         {
+     *             "address": "tttttttttt",
+     *             "amount": 100
+     *         },
+     *         {
+     *             "address": "tltutbkiyf",
+     *             "amount": 1
+     *         },
+	 *  	   ...
+	 */
+   app.get("/staking/penalties", function(req, res) {
+    stakingController.getPenalties(req.query.limit, req.query.offset, false).then(function(penalties) {
+      const out = [];
+
+      penalties.rows.forEach(function (penalty) {
+        out.push(stakingController.penaltyToJSON(penalty));
+      });
+
+      res.json({
+        ok: true,
+        count: out.length,
+        total: penalties.count,
+        penalties: out
+      });
+    }).catch(function(error) {
+      utils.sendErrorToRes(req, res, error);
+    });
+  });
 
 
   /**
