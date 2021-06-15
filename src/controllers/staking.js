@@ -41,9 +41,13 @@ StakingController.getStakes = function (limit, offset, asc, includeMined) {
 };
 
 StakingController.getStake = function (address) {
-  return new Promise(function(resolve, reject) {
-    staking.getStake(address).then(resolve).catch(reject);
-  });
+  if (!tenebra.isValidTenebraAddress(address))
+    throw new errors.ErrorInvalidParameter("address");
+
+  const result = await staking.getStake(address);
+  if (!result) throw new errors.ErrorAddressNotFound();
+
+  return result;
 };
 
 StakingController.getValidator = function () {
