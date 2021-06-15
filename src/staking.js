@@ -23,6 +23,7 @@
 const utils        = require("./utils.js");
 const constants    = require("./constants.js");
 const schemas      = require("./schemas.js");
+const database   = require("./database.js");
 const websockets   = require("./websockets.js");
 const transactions = require("./transactions.js");
 const { Op }       = require("sequelize");
