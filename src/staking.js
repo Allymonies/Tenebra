@@ -57,6 +57,12 @@ Staking.getStakes = function (limit, offset, asc, includeInactive) {
   });
 };
 
+Staking.getStake = function (address) {
+  return schemas.address.findOne({
+    where: { address: {[Op.eq]: address}}
+  });
+};
+
 
 Staking.stakeToJSON = function(stake) {
   return {
