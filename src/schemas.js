@@ -40,7 +40,15 @@ const Address = database.getSequelize().define("address", {
     type: Sequelize.STRING(1024),
     allowNull: true
   },
-  locked: Sequelize.BOOLEAN
+  locked: Sequelize.BOOLEAN,
+  stake: {
+    type: Sequelize.INTEGER.UNSIGNED,
+    allowNull: true
+  },
+  stake_active: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: 1
+  }
 }, {
   timestamps: false
 });
@@ -118,25 +126,6 @@ const Transaction = database.getSequelize().define("transaction", {
   ]
 });
 
-const Stake = database.getSequelize().define("stake", {
-  owner: Sequelize.STRING(10),
-  amount: Sequelize.INTEGER.UNSIGNED,
-  active: Sequelize.BOOLEAN,
-}, {
-  timestamps: false,
-  indexes: [
-    { // Index on 'owner'
-      fields: ["owner"]
-    },
-    { // Index on 'amount'
-      fields: ["amount"]
-    },
-    { // Index on 'active'
-      fields: ["active"]
-    }
-  ]
-});
-
 const AuthLog = database.getSequelize().define("authlog", {
   address: Sequelize.STRING(10),
   ip: Sequelize.STRING(47),
@@ -166,7 +155,6 @@ module.exports = {
       Block.sync({ force }),
       Name.sync({ force }),
       Transaction.sync({ force }),
-      Stake.sync({ force }),
       AuthLog.sync({ force })
     ]);
   }

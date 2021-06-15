@@ -145,7 +145,7 @@ module.exports = function(app) {
 	 *  	   ...
 	 */
   app.get("/staking", function(req, res) {
-    stakingController.getStakes(req.query.limit, req.query.offset, true, typeof req.query.excludeInactive === "undefined").then(function(stakes) {
+    stakingController.getStakes(req.query.limit, req.query.offset, false, typeof req.query.excludeInactive === "undefined").then(function(stakes) {
       const out = [];
 
       stakes.rows.forEach(function (stake) {

@@ -28,5 +28,6 @@ npm-debug.log
 /static/docs
 /static/kristwallet
 docker-compose.yml
+*.code-workspace
 
 .env
