@@ -109,7 +109,7 @@ Tenebra.init = async function () {
   }, 60 * 1000);
 
   if (stakingEnabled) {
-    Tenebra.validatorSelectionInterval = setInterval(Tenebra.selectValidator, Tenebra.getSecondsPerBlock * 1000);
+    Tenebra.validatorSelectionInterval = setInterval(Tenebra.selectValidator, Tenebra.getSecondsPerBlock() * 1000);
   }
   
 
