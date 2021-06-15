@@ -116,7 +116,7 @@ module.exports = function(app) {
 	 * @api {get} /staking List all stakes
 	 * @apiName GetStakes
 	 * @apiGroup StakingGroup
-	 * @apiVersion 2.3.0
+	 * @apiVersion 2.15.0
 	 *
 	 * @apiParam (QueryParameter) {Number} [limit=50] The maximum amount of results to return.
 	 * @apiParam (QueryParameter) {Number} [offset=0] The amount to offset the results.
@@ -161,6 +161,54 @@ module.exports = function(app) {
     }).catch(function(error) {
       utils.sendErrorToRes(req, res, error);
     });
+  });
+
+  /**
+	 * @api {get} /staking/:address Get an address' stake
+	 * @apiName GetStake
+	 * @apiGroup StakingGroup
+	 * @apiVersion 2.15.0
+	 *
+	 * @apiParam (URLParameter) {String} address The address.
+	 *
+	 * @apiUse Stake
+	 *
+	 * @apiSuccessExample {json} Success
+	 * {
+	 *     "ok": true,
+	 *     "stake": {
+	 *         "owner": "tttttttttt",
+   *          "amount": 2500,
+   *          "active": true
+	 *     }
+	 * }
+	 *
+	 * @apiErrorExample {json} Address Not Found
+	 * {
+	 *     "ok": false,
+	 *     "error": "address_not_found"
+	 * }
+	 *
+	 * @apiErrorExample {json} Invalid Address
+	 * {
+	 *     "ok": false,
+	 *     "error": "invalid_parameter",
+	 *     "parameter": "address"
+	 * }
+	 */
+   app.get("/staking/:address", async function(req, res) {
+
+    try {
+      const stake = await stakingController.getStake(
+        req.params.address);
+
+      res.json({
+        ok: true,
+        stake: stakingController.stakeToJSON(stake)
+      });
+    } catch (err) {
+      utils.sendErrorToRes(req, res, err);
+    }
   });
 
   return app;
