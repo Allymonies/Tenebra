@@ -85,7 +85,7 @@ module.exports = function(app) {
       const out = [];
 
       stakes.rows.forEach(function (stake) {
-        out.push(stakeController.stakeToJSON(stake));
+        out.push(stakingController.stakeToJSON(stake));
       });
 
       res.json({
