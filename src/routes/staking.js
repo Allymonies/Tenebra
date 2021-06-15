@@ -99,13 +99,13 @@ module.exports = function(app) {
     });
   });
 
-    /**
+  /**
 	 * @api {get} /staking/validator Get the current validator
 	 * @apiName GetValidator
 	 * @apiGroup StakingGroup
 	 * @apiVersion 2.15.0
 	 *
-	 * @apiUse Stake
+	 * @apiSuccess {String} validator The current validator.
 	 *
 	 * @apiSuccessExample {json} Success
 	 * {
@@ -126,6 +126,35 @@ module.exports = function(app) {
         utils.sendErrorToRes(req, res, err);
       }
     });
+
+  /**
+	 * @api {get} /staking/bonus Get the staking penalty bonus
+	 * @apiName GetPenaltyBonus
+	 * @apiGroup StakingGroup
+	 * @apiVersion 2.15.0
+	 *
+	 * @apiSuccess {Number} penalty_bonus The staking penalty bonus.
+	 *
+	 * @apiSuccessExample {json} Success
+	 * {
+	 *     "ok": true,
+	 *     "penalty_bonus": 1
+	 * }
+	 */
+     app.get("/staking/bonus", async function(req, res) {
+
+      try {
+        const penaltyBonus = await stakingController.getPenalty();
+  
+        res.json({
+          ok: true,
+          penalty_bonus: penaltyBonus
+        })
+      } catch (err) {
+        utils.sendErrorToRes(req, res, err);
+      }
+    });
+
 
   /**
 	 * @api {get} /staking/:address Get an address' stake
