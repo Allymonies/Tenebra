@@ -242,7 +242,7 @@ module.exports = function(app) {
 	 * @api {post} /staking/ Deposit a stake
 	 * @apiName DepositStake
 	 * @apiGroup StakingGroup
-	 * @apiVersion 2.0.0
+	 * @apiVersion 2.15.0
 	 *
 	 * @apiParam (BodyParameter) {String} privatekey The privatekey of your address.
 	 * @apiParam (BodyParameter) {Number} amount The amount to deposit to your stake.
@@ -282,7 +282,7 @@ module.exports = function(app) {
 	 * @api {post} /staking/withdraw Withdraw a stake
 	 * @apiName WithdrawStake
 	 * @apiGroup StakingGroup
-	 * @apiVersion 2.0.0
+	 * @apiVersion 2.15.0
 	 *
 	 * @apiParam (BodyParameter) {String} privatekey The privatekey of your address.
 	 * @apiParam (BodyParameter) {Number} amount The amount to withdraw from your stake.
