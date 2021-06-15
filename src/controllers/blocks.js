@@ -114,7 +114,7 @@ BlocksController.submitBlock = async function(req, address, rawNonce, userAgent,
   const difficulty = await tenebra.getWork();
   const hash = utils.sha256(address, last, nonce);
 
-  if ((miningEnabled && (parseInt(hash.substr(0, 12), 16) <= difficulty || tenebra.freeNonceSubmission)) || (stakingEnabled && address == staking.getValidator())) {
+  if ((miningEnabled && (parseInt(hash.substr(0, 12), 16) <= difficulty || tenebra.freeNonceSubmission)) || (stakingEnabled && address === await staking.getValidator())) {
     try {
       const block = await blocks.submit(req, hash, address, nonce, userAgent, origin);
       return block;
