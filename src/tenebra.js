@@ -166,7 +166,7 @@ Tenebra.selectValidator = async function() {
   for(let i = 0; i < stakeWeights.length; i++) {
     const weight = stakeWeights[i];
     if (selectedSum < weight.sum) {
-      staking.setValidator(weight.address);
+      await staking.setValidator(weight.address);
       break;
     }
   }
