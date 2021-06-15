@@ -99,6 +99,34 @@ module.exports = function(app) {
     });
   });
 
+    /**
+	 * @api {get} /staking/validator Get the current validator
+	 * @apiName GetValidator
+	 * @apiGroup StakingGroup
+	 * @apiVersion 2.15.0
+	 *
+	 * @apiUse Stake
+	 *
+	 * @apiSuccessExample {json} Success
+	 * {
+	 *     "ok": true,
+	 *     "validator": "tttttttttt"
+	 * }
+	 */
+     app.get("/staking/validator", async function(req, res) {
+
+      try {
+        const validator = await stakingController.getValidator();
+  
+        res.json({
+          ok: true,
+          validator: validator
+        })
+      } catch (err) {
+        utils.sendErrorToRes(req, res, err);
+      }
+    });
+
   /**
 	 * @api {get} /staking/:address Get an address' stake
 	 * @apiName GetStake
@@ -142,34 +170,6 @@ module.exports = function(app) {
         ok: true,
         stake: stakingController.stakeToJSON(stake)
       });
-    } catch (err) {
-      utils.sendErrorToRes(req, res, err);
-    }
-  });
-
-  /**
-	 * @api {get} /staking/validator Get the current validator
-	 * @apiName GetValidator
-	 * @apiGroup StakingGroup
-	 * @apiVersion 2.15.0
-	 *
-	 * @apiUse Stake
-	 *
-	 * @apiSuccessExample {json} Success
-	 * {
-	 *     "ok": true,
-	 *     "validator": "tttttttttt"
-	 * }
-	 */
-   app.get("/staking/validator", async function(req, res) {
-
-    try {
-      const validator = await stakingController.getValidator();
-
-      res.json({
-        ok: true,
-        validator: validator
-      })
     } catch (err) {
       utils.sendErrorToRes(req, res, err);
     }
