@@ -93,7 +93,7 @@ Staking.penalize = async function(staker, dbTx) {
     websockets.broadcastEvent({
       type: "event",
       event: "stake",
-      stake: {owner: staker.address, amount: stake.stake - amount, stake_active: false}
+      stake: {owner: staker.address, amount: staker.stake - amount, stake_active: false}
     })
   ]);
 
