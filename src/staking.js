@@ -175,6 +175,7 @@ Staking.getPenalties = function (limit, offset, asc) {
 };
 
 Staking.stakeToJSON = function(stake) {
+  console.log("Testing ", stake, stake.address, stake.stake, stake.stake_active);
   return {
     owner: stake.address,
     stake: stake.stake,
