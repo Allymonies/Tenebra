@@ -23,7 +23,7 @@
  
  module.exports = function(websockets) {
    /**
-      * @api {ws} //ws:"type":"stake" Get an address
+      * @api {ws} //ws:"type":"stake" Get a stake
       * @apiName WSGetStake
       * @apiGroup WebsocketGroup
       * @apiVersion 2.15.0
