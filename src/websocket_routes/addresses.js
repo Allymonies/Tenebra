@@ -20,6 +20,7 @@
  */
 
 const addr = require("./../controllers/addresses.js");
+const staking = require("./../controllers/staking.js");
 
 module.exports = function(websockets) {
   /**
@@ -32,17 +33,29 @@ module.exports = function(websockets) {
 	 * @apiParam (WebsocketParameter) {String="address"} type
 	 * @apiParam (WebsocketParameter) {String} address
 	 * @apiParam (WebsocketParameter) {Boolean} [fetchNames] When supplied, fetch
-   *   the count of names owned by the address.
+     *   the count of names owned by the address.
+     * @apiParam (WebsocketParameter) {Boolean} [fetchStake] When supplied, fetch
+     *   the stake owned by the address.
 	 *
 	 * @apiUse Address
+	 * @apiUse [Stake]
 	 */
 
   websockets.addMessageHandler("address", async function(ws, message) {
     const fetchNames = !!message.fetchNames;
     const address = await addr.getAddress(message.address, fetchNames);
-    return {
-      ok: true,
-      address: addr.addressToJSON(address)
-    };
+	if (!!message.fetchStake) {
+		const stake = staking.getStake(message.address)
+		return {
+			ok: true,
+			address: addr.addressToJSON(address),
+			stake: staking.stakeToJson(stake)
+		  };
+	} else {
+		return {
+			ok: true,
+			address: addr.addressToJSON(address)
+		  };
+	}
   });
 };
