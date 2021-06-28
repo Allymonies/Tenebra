@@ -88,6 +88,13 @@ Staking.penalize = async function(staker, dbTx) {
 
     // Create the transaction
     //transactions.createTransaction("penalty", staker.address, amount, null, null, dbTx, null, null, null, null),
+
+    // Broadcast the transaction to websockets subscribed to transactions (async)
+    websockets.broadcastEvent({
+      type: "event",
+      event: "stake",
+      stake: {owner: staker.address, amount: stake.stake - amount, stake_active: false}
+    })
   ]);
 
   return newTransaction;

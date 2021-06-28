@@ -101,6 +101,7 @@
       "MiscellaneousGroup",
       "WebsocketGroup",
       "WebsocketStart",
+      "WSGetStake",
       "WSGetWork",
       "WSMakeTransaction",
       "WSSubmitBlock",

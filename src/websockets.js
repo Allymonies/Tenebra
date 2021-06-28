@@ -74,7 +74,7 @@ function WebsocketsManager() {
   this.messageHandlers = [];
   this.pendingTokens = [];
 
-  this.validSubscriptions = ["blocks", "ownBlocks", "transactions", "ownTransactions", "names", "ownNames", "motd", "validators", "ownValidators"];
+  this.validSubscriptions = ["blocks", "ownBlocks", "transactions", "ownTransactions", "names", "ownNames", "motd", "validators", "ownValidators", "stakes", "ownStake"];
 }
 
 function Websocket(req, socket, token, auth, subs, privatekey) {
@@ -84,7 +84,7 @@ function Websocket(req, socket, token, auth, subs, privatekey) {
   this.auth = auth;
   this.privatekey = privatekey;
 
-  this.subs = subs || ["ownTransactions", "blocks"];
+  this.subs = subs || ["ownTransactions", "blocks", "ownStake"];
 
   this.isGuest = auth === "guest";
 }
@@ -241,6 +241,13 @@ function subscriptionCheck(message) {
     return ws => // If the ws is subscribed to 'ownValidators' or 'validator'
       (!ws.isGuest && ws.auth === validator && ws.subs.includes("ownValidators")) 
       || ws.subs.includes("validator");
+  }
+
+  case "stake": {
+    const stakeOwnder = message.stake.owner;
+    return ws => // If the ws is subscribed to 'ownStake' or 'stakes'
+      (!ws.isGuest && ws.auth === validator && ws.subs.includes("ownStake")) 
+      || ws.subs.includes("stakes");
   }
 
   default: 
