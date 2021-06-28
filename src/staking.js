@@ -120,6 +120,12 @@ Staking.deposit = async function(staker, amount, dbTx) {
   staker.stake += amount;
   staker.stake_active = true;
 
+  websockets.broadcastEvent({
+    type: "event",
+    event: "stake",
+    stake: Staking.stakeToJSON(stake)
+  })
+
   return staker;
 
 };
@@ -142,6 +148,12 @@ Staking.withdraw = async function(staker, amount, dbTx) {
 
   staker.stake -= amount;
   staker.stake_active = staker.stake > 0;
+
+  websockets.broadcastEvent({
+    type: "event",
+    event: "stake",
+    stake: Staking.stakeToJSON(stake)
+  })
 
   return staker;
 

@@ -123,7 +123,11 @@ module.exports = function(app) {
    * |      `names`      |     `name`    | Name events whenever a name is created, modified or transferred by anybody on the node |
    * |     `ownNames`    |     `name`    | Name events whenever the authed user creates, modifies or transfers a name             |
    * |       `motd`      |     `motd`    | Event fired whenever the message of the day changes                                    |
-   *
+   * |    `validators`   |  `validator`  | Validator events whenever a validator is chosen                                        |
+   * |  `ownValidators`  |  `validator`  | Validator events whenever the authed user is chosen as a validator                     |
+   * |      `stakes`     |    `stake`    | Stake events whenever a stake is modified                                              |
+   * |     `ownStake`    |    `stake`    | Stake events whenever the authed user's stake is modified                              |
+   * 
    * ## Examples
    *
    *
