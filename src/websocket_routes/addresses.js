@@ -38,7 +38,7 @@ module.exports = function(websockets) {
      *   the stake owned by the address.
 	 *
 	 * @apiUse Address
-	 * @apiUse [Stake]
+	 * @apiUse Stake
 	 */
 
   websockets.addMessageHandler("address", async function(ws, message) {
