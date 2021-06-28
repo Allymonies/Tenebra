@@ -45,7 +45,7 @@ module.exports = function(websockets) {
     const fetchNames = !!message.fetchNames;
     const address = await addr.getAddress(message.address, fetchNames);
 	if (!!message.fetchStake) {
-		const stake = staking.getStake(message.address)
+		const stake = await staking.getStake(message.address)
 		return {
 			ok: true,
 			address: addr.addressToJSON(address),
