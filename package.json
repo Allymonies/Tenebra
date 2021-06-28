@@ -106,6 +106,7 @@
       "WSSubmitBlock",
       "LookupGroup",
       "LookupAddresses",
+      "LookupStakes",
       "LookupBlocks",
       "LookupTransactions",
       "LookupNames",

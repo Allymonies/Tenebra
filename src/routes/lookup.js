@@ -20,9 +20,10 @@
  */
 
 const express      = require("express");
-const tenebra        = require("../tenebra");
+const tenebra      = require("../tenebra");
 const Addresses    = require("../addresses");
 const Blocks       = require("../blocks");
+const Staking      = require("../staking");
 const Transactions = require("../transactions");
 const Names        = require("../names");
 const errors       = require("../errors/errors");
@@ -198,6 +199,81 @@ module.exports = function(app) {
       found: rows.length,
       notFound: addressList.length - rows.length,
       addresses: out
+    });
+  });
+
+  /**
+   * @api {get} /lookup/stakes/:addresses Lookup stakes
+   * @apiName LookupStakes
+   * @apiGroup LookupGroup
+   * @apiVersion 2.15.0
+   *
+   * @apiDescription Return an object containing the given address(es)' stakes. Any
+   * addresses that do not exist on the Tenebra server (i.e. they have not been
+   * logged in to, or have not received Tenebra) will be assigned `null` in the
+   * object.
+   *
+   * **WARNING:** The Lookup API is in Beta, and is subject to change at any
+   * time without warning.
+   *
+	 * @apiParam (URLParameter) {String[]} [addresses] A comma-separated list of
+   *           addresses to filter stakes.
+   *
+   * @apiSuccess {Number} found The amount of stakes that were successfully
+   *             returned.
+   * @apiSuccess {Number} notFound The amount of stakes that were not
+   *             returned.
+   * @apiSuccess {Object} stakes Object keyed by address containing their
+   *             data, or `null` if the address was not found.
+   *
+   * @apiSuccessExample {json} Success
+   * {
+   *   "ok": true,
+   *   "found": 3,
+   *   "notFound": 1,
+   *   "addresses": {
+   *     "kfakeaddy0": null,
+   *     "thugepoopy": {
+   *       "owner": "thugepoopy",
+   *       "stake": 433,
+   *       "active": true
+   *     },
+   *     "treichdyes": {
+   *       "owner": "treichdyes",
+   *       "stake": 210,
+   *       "active": true
+   *     },
+   *     "tre3w0i79j": {
+   *       "owner": "tre3w0i79j",
+   *       "stake": 0,
+   *       "active": false
+   *     }
+   *   }
+   * }
+   */
+   api.get("/stakes/:addresses", async (req, res) => {
+    const { addresses: addressesParam } = req.params;
+
+    // Validate address list
+    if (!addressesParam) throw new errors.ErrorMissingParameter("addresses");
+    const addressList = validateAddressList(addressesParam);
+
+    // Perform the query
+    const rows = await Staking.lookupStakes(addressList);
+
+    // Prepare the output object (initialize all supplied addresses with 'null')
+    const out = addressList.reduce((obj, address) => (obj[address] = null, obj), {});
+
+    // Populate the output object with the addresses we actually found
+    for (const address of rows) {
+      out[address.address] = Staking.stakeToJSON(address);
+    }
+
+    return res.json({
+      ok: true,
+      found: rows.length,
+      notFound: addressList.length - rows.length,
+      stakes: out
     });
   });
 

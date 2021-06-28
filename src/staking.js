@@ -58,6 +58,10 @@ Staking.getStakes = function (limit, offset, asc, includeInactive) {
   });
 };
 
+Staking.lookupStakes = function(addressList) {
+  return schemas.address.findAll({ where: { address: addressList } });
+};
+
 Staking.getStakeWeights = function () {
   return schemas.address.findAndCountAll({
     where: { stake: EXCLUDE_NO_STAKE, stake_active: EXCLUDE_INACTIVE }
