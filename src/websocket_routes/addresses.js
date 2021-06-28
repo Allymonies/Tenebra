@@ -49,7 +49,7 @@ module.exports = function(websockets) {
 		return {
 			ok: true,
 			address: addr.addressToJSON(address),
-			stake: staking.stakeToJson(stake)
+			stake: staking.stakeToJSON(stake)
 		  };
 	} else {
 		return {
