@@ -244,9 +244,9 @@ function subscriptionCheck(message) {
   }
 
   case "stake": {
-    const stakeOwnder = message.stake.owner;
+    const stakeOwner = message.stake.owner;
     return ws => // If the ws is subscribed to 'ownStake' or 'stakes'
-      (!ws.isGuest && ws.auth === validator && ws.subs.includes("ownStake")) 
+      (!ws.isGuest && ws.auth === stakeOwner && ws.subs.includes("ownStake")) 
       || ws.subs.includes("stakes");
   }
 
@@ -350,6 +350,12 @@ WebsocketsManager.prototype.startIPC = async function() {
       if (!body.validator) throw new errors.ErrorMissingParameter("validator");
       eventData = { validator: body.validator };
       break;
+    
+    case "stake":
+      if (!body.stake) throw new errors.ErrorMissingParameter("stake");
+      eventData = { stake: body.stake };
+      break;
+
 
     default:
       throw new errors.ErrorInvalidParameter("event");
