@@ -83,17 +83,27 @@ module.exports = function(app) {
    *
    * @apiSuccess {Number} work The current Tenebra work (difficulty)
    * @apiSuccess {Number} unpaid The current number of unpaid names
+   * @apiSuccess {Number} unpaidPenalties The current number of unpaid staking penalties
    * 
    * @apiSuccess {Number} base_value The base block value
    * @apiSuccess {Number} block_value The current block value (base + unpaid)
+   * @apiSuccess {Number} total_staked The total amount of Tenebra actively staked
    * 
    * @apiSuccess {Object} decrease Information about the next block value
    *   decrease
    * @apiSuccess {Number} decrease[value] How much Tenebra the block value will
    *   decrease by when the next name(s) expire
    * @apiSuccess {Number} decrease[blocks] How many blocks before the next block
-   *   value decrease
-   * @apiSuccess {Number} decrease[reset] How many blocks before the block value
+   *   value decrease due to a name
+   * @apiSuccess {Number} decrease[reset] How many blocks before the name block value
+   *   will completely reset to the base value
+   * @apiSuccess {Object} decrease Information about the next block value
+   *   decrease
+   * @apiSuccess {Number} decreasePenalty[value] How much Tenebra the block value will
+   *   decrease by when the next penalty(s) expire
+   * @apiSuccess {Number} decreasePenalty[blocks] How many blocks before the next block
+   *   value decrease due to a staking penalty
+   * @apiSuccess {Number} decreasePenalty[reset] How many blocks before the penalty block value
    *   will completely reset to the base value
    * 
    * @apiSuccessExample {json} Success
@@ -101,9 +111,16 @@ module.exports = function(app) {
    *   "ok": true,
    *   "work": 92861,
    *   "unpaid": 3,
+   *   "unpaidPenalties": 3,
    *   "base_value": 1,
    *   "block_value": 4,
+   *   "total_staked": 1000,
    *   "decrease": {
+   *     "value": 2,
+   *     "blocks": 496,
+   *     "reset": 500
+   *   }
+   *   "decreasePenalty": {
    *     "value": 2,
    *     "blocks": 496,
    *     "reset": 500
@@ -126,6 +143,8 @@ module.exports = function(app) {
     const mostUnpaidPenalty = [...(detailedUnpaidPenalties.filter(u => u.penalty > 0))];
     mostUnpaidPenalty.sort((a, b) => b.penalty - a.penalty);
 
+    const totalStaked = await staking.getTotalStaked();
+
     res.json({
       ok: true,
 
@@ -135,6 +154,7 @@ module.exports = function(app) {
 
       base_value: baseValue,
       block_value: baseValue + unpaidNames + unpaidPenalties,
+      total_staked: totalStaked,
 
       decrease: {
         value: nextUnpaid ? nextUnpaid.count : 0,

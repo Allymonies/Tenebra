@@ -193,6 +193,10 @@ Staking.getPenalties = function (limit, offset, asc) {
   });
 };
 
+Staking.getTotalStaked = function () {
+  return schemas.address.sum("stake", { where: { stake_active: EXCLUDE_INACTIVE } });
+};
+
 Staking.stakeToJSON = function(stake) {
   return {
     owner: stake.address,
