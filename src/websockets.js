@@ -238,9 +238,9 @@ function subscriptionCheck(message) {
 
   case "validator": {
     const validator = message.validator;
-    return ws => // If the ws is subscribed to 'ownValidators' or 'validator'
+    return ws => // If the ws is subscribed to 'ownValidators' or 'validators'
       (!ws.isGuest && ws.auth === validator && ws.subs.includes("ownValidators")) 
-      || ws.subs.includes("validator");
+      || ws.subs.includes("validators");
   }
 
   case "stake": {
