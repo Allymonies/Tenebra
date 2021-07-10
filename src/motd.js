@@ -37,6 +37,7 @@ async function getDetailedMOTD() {
 
     public_url: process.env.PUBLIC_URL || "localhost:8080",
     mining_enabled: await tenebra.isMiningEnabled(),
+    staking_enabled: await tenebra.isStakingEnabled(),
     debug_mode,
 
     work: await tenebra.getWork(),
