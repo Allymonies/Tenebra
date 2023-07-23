@@ -144,7 +144,7 @@ Blocks.submit = async function(req, hash, address, nonce, useragent, origin) {
 
     if (await tenebra.isStakingEnabled()) {
       if ( (await staking.getValidator()) === "") {
-        throw { errors: [ {"type": "unique violation", "path": "hash" } ] };
+        throw new Error({ errors: [ {"type": "unique violation", "path": "hash" } ] });
       }
       await staking.setValidator("");
     }
