@@ -95,6 +95,7 @@ TransactionsController.makeTransaction = async function(req, privatekey, to, amo
   const metadataNameInfo = metadataIsName ? tenebra.metanameMetadataRegex.exec(metadata) : undefined;
 
   // Verify this is a valid v2 address
+  amount = typeof amount === "string" ? Math.trunc(parseInt(amount)) : Math.trunc(amount);
   if (!isName && !tenebra.isValidTenebraAddress(to, true))
     throw new errors.ErrorInvalidParameter("to");
 
@@ -103,7 +104,6 @@ TransactionsController.makeTransaction = async function(req, privatekey, to, amo
     throw new errors.ErrorInvalidParameter("metadata");
 
   const from = tenebra.makeV2Address(privatekey);
-  amount = parseInt(amount);
 
   // Address auth validation
   const { authed, address: sender } = await addresses.verify(req, from, privatekey);
